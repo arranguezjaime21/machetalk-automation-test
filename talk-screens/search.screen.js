@@ -1,6 +1,6 @@
 import { callSettingsConfig } from "../config/callsettings.js";
 
-
+// call settings setup
 export const ScreenCallSettings = { 
 
     driver: null,
