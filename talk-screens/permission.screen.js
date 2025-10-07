@@ -1,4 +1,4 @@
-import { PERMISSION_CONFIG } from "../config/permission.config";
+import { PERMISSION_CONFIG } from "../config/permission.config.js";
 
 
 export const PermissionModal = {
