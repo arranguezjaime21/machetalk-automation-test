@@ -1,30 +1,80 @@
-export const AppealOption = [
-    {
-        btnID: '//android.widget.TextView[@text="即通話OKです"]',
-        name: 'appeal1',
+export const AppealOption = { 
+
+    appeal1: {
+         btnID: '//android.widget.TextView[@text="即通話OKです"]',
+         settingsON: [
+            "現在ビデオ・音声通話の受信がONになっています。",
+            "現在音声通話のみ受信がONになっています。"
+         ],
+         settingsOFF: [
+            "ビデオ通話か音声通話の受信をONしてください。\nONにすると通話待機します。"
+         ]
     },
-    {
-        btnID: '//android.widget.TextView[@text="気軽に通話してね"]',
-        name: 'appeal2',
+
+     appeal2: {
+         btnID: '//android.widget.TextView[@text="気軽に通話してね"]',
+         settingsON: [
+            "現在ビデオ・音声通話の受信がONになっています。",
+            "現在音声通話のみ受信がONになっています。"
+         ],
+         settingsOFF: [
+            "ビデオ通話か音声通話の受信をONしてください。\nONにすると通話待機します。"
+         ]
     },
-    {
-        btnID: '//android.widget.TextView[@text="今なら音声通話できます"]',
-        name: 'appeal3',
+
+      appeal3: {
+         btnID: '//android.widget.TextView[@text="今なら音声通話できます"]',
+         settingsON: [
+            "現在ビデオ・音声通話の受信がONになっています。",
+            "現在音声通話のみ受信がONになっています。"
+         ],
+         settingsOFF: [
+            "ビデオ通話か音声通話の受信をONしてください。\nONにすると通話待機します。"
+         ]
     },
-    {
-        btnID: '//android.widget.TextView[@text="今ならビデオ通話できます"]',
-        name: 'appeal4',
+
+      appeal4: {
+         btnID: '//android.widget.TextView[@text="今ならビデオ通話できます"]',
+         settingsON: [
+            "現在ビデオ・音声通話の受信がONになっています。",
+            "現在音声通話のみ受信がONになっています。"
+         ],
+         settingsOFF: [
+            "ビデオ通話か音声通話の受信をONしてください。\nONにすると通話待機します。"
+         ]
     },
-    {
-        btnID: '//android.widget.TextView[@text="30分ぐらい通話できます"]',
-        name: 'appeal5',
+
+    appeal5: {
+         btnID: '//android.widget.TextView[@text="30分ぐらい通話できます"]',
+         settingsON: [
+            "現在ビデオ・音声通話の受信がONになっています。",
+            "現在音声通話のみ受信がONになっています。"
+         ],
+         settingsOFF: [
+            "ビデオ通話か音声通話の受信をONしてください。\nONにすると通話待機します。"
+         ]
     },
-    {
-        btnID: '//android.widget.TextView[@text="寂しいので通話ほしいです"]',
-        name: 'appeal6',
+
+      appeal6: {
+         btnID: '//android.widget.TextView[@text="寂しいので通話ほしいです"]',
+         settingsON: [
+            "現在ビデオ・音声通話の受信がONになっています。",
+            "現在音声通話のみ受信がONになっています。"
+         ],
+         settingsOFF: [
+            "ビデオ通話か音声通話の受信をONしてください。\nONにすると通話待機します。"
+         ]
     },
-    {
-        btnID: '//android.widget.TextView[@text="暇なので通話しませんか？"]',
-        name: 'appeal7',
-    },
-]
+
+    appeal7: {
+         btnID: '//android.widget.TextView[@text="暇なので通話しませんか？"]',
+         settingsON: [
+            "現在ビデオ・音声通話の受信がONになっています。",
+            "現在音声通話のみ受信がONになっています。"
+         ],
+         settingsOFF: [
+            "ビデオ通話か音声通話の受信をONしてください。\nONにすると通話待機します。"
+         ]
+    }
+
+}
