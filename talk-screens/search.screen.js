@@ -1,6 +1,7 @@
+import { AppealOption } from "../config/callappeal.config.js";
 import { callSettingsConfig } from "../config/callsettings.js";
 
-// call settings setup
+// call settings 
 export const ScreenCallSettings = { 
 
     driver: null,
@@ -40,4 +41,27 @@ export const ScreenCallSettings = {
         } 
         await this.handleCallSettings(callSettingsConfig[settingName]);
     }, 
+}
+
+//call appeal 
+export const ScreenCallAppeal = {
+
+    driver: null,
+
+
+    async callAppealIcon () {
+        const icon = await this.driver.$('id=com.fdc_machetalk_broadcaster:id/rlStrength');
+        await icon.waitForDisplayed({timeout:3000});
+        await icon.click();
+    },
+
+    async selectAppeal () {
+        for (const {btnID, name} of AppealOption) {
+            const appealBtn = await this.driver.$(`${btnID}`);
+            await appealBtn.click();
+            
+        }
+        const closeAppealOption = await this.driver.$('id=com.fdc_machetalk_broadcaster:id/tvCancel');
+    }
+    
 }
