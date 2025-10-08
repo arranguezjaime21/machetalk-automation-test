@@ -43,7 +43,7 @@ export const ScreenCallSettings = {
     }, 
 }
 
-//call appeal 
+//set call appeal 
 export const ScreenCallAppeal = {
 
     driver: null,
@@ -55,13 +55,15 @@ export const ScreenCallAppeal = {
         await icon.click();
     },
 
-    async selectAppeal () {
-        for (const {btnID, name} of AppealOption) {
-            const appealBtn = await this.driver.$(`${btnID}`);
-            await appealBtn.click();
-            
-        }
+    async selectAppeal ({btnID, settingsON, settingsOFF }) {
+       
         const closeAppealOption = await this.driver.$('id=com.fdc_machetalk_broadcaster:id/tvCancel');
     }
     
 }
+
+//com.fdc_machetalk_broadcaster:id/tv_status_info
+// 現在ビデオ・音声通話の受信がONになっています。 [VIDEOAUDIO ON]
+// 現在音声通話のみ受信がONになっています。 [AUDIO ON]
+// ビデオ通話か音声通話の受信をONしてください。\nONにすると通話待機します。 [AUDIO VIDEO OFF]
+
