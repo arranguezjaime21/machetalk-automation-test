@@ -1,6 +1,7 @@
 import { AppealOption } from "../config/callappeal.config.js";
 import { callSettingsConfig } from "../config/callsettings.js";
 
+
 // call settings 
 export const ScreenCallSettings = { 
 
@@ -51,19 +52,39 @@ export const ScreenCallAppeal = {
 
     async callAppealIcon () {
         const icon = await this.driver.$('id=com.fdc_machetalk_broadcaster:id/rlStrength');
-        await icon.waitForDisplayed({timeout:3000});
+        await icon.waitForDisplayed({timeout:5000});
         await icon.click();
     },
 
-    async selectAppeal ({btnID, settingsON, settingsOFF }) {
+    async selectAppeal ({ btnID, name }) {
+        const btnAppeal = await this.driver.$(`${btnID}`);
+        await btnAppeal.click();
        
-        const closeAppealOption = await this.driver.$('id=com.fdc_machetalk_broadcaster:id/tvCancel');
-    }
+        const callSettings = await this.driver.$('id=com.fdc_machetalk_broadcaster:id/rl_options');
+        const isVisible = await callSettings.isDisplayed().catch(() => false);
+
+        //select appeal
+        if (isVisible) {
+            console.log("user call settings is off");
+            //calling the call settings function
+            ScreenCallSettings.driver = this.driver;
+            await ScreenCallSettings.setCallSettings("enableAudioVideo");
+            console.log("users call settings successfully enabled");
+        }
+            console.log("user call settings already turned on")
+            const toast = await this.driver.$('id=com.fdc_machetalk_broadcaster:id/tv_message');
+            await toast.waitForDisplayed({ timeout: 3000 });
+            const toastText = await toast.getAttribute("text");
+            console.log(`Appeal "${name}" set successfully — Toast: ${toastText}`);
+
+    },
+
+     async setAppeal (settingIndex) {
+        const appeal = AppealOption[settingIndex];
+        if (!appeal) {
+            throw new Error (`unknown call setting: ${settingIndex}`);
+        } 
+        await this.selectAppeal(appeal);
+    }, 
     
 }
-
-//com.fdc_machetalk_broadcaster:id/tv_status_info
-// 現在ビデオ・音声通話の受信がONになっています。 [VIDEOAUDIO ON]
-// 現在音声通話のみ受信がONになっています。 [AUDIO ON]
-// ビデオ通話か音声通話の受信をONしてください。\nONにすると通話待機します。 [AUDIO VIDEO OFF]
-
