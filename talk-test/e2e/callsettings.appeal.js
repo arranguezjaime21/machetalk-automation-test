@@ -3,6 +3,7 @@ import { LoginScreen } from "../../talk-screens/login.screen.js";
 import { PermissionModal } from "../../talk-screens/permission.screen.js";
 import { ScreenCallAppeal, ScreenCallSettings } from "../../talk-screens/search.screen.js";
 import { emulatorCapsReset } from "../../helpers/capabilities.js";
+import { handleSavePass } from "../../helpers/handleSavePassPopup.js";
 
 describe("end to end test for user login and set call appeal with enabled call settings", function () {
   let driver;
@@ -37,12 +38,13 @@ describe("end to end test for user login and set call appeal with enabled call s
     await LoginScreen.loginMailButton();
     //login user account with user credentials
     await LoginScreen.setCredentials({
-      email: "motivation@mail.com",
+      email: "oreo@mail.com",
       password: "admin",
     });
     await LoginScreen.submit();
     await driver.pause(5000);
-
+    //dismissed poppup save pass
+    await handleSavePass(driver);
     //allow app permissions camera/mic/bluetooth and notification
     await PermissionModal.allowPermission();
     //navigate search page

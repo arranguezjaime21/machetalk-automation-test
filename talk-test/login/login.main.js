@@ -1,6 +1,7 @@
 import { remote } from "webdriverio";
 import { LoginScreen } from "../../talk-screens/login.screen.js";
 import { emulatorCapsReset } from "../../helpers/capabilities.js";
+import { handleSavePass } from "../../helpers/handleSavePassPopup.js";
 
 
 
@@ -51,7 +52,7 @@ describe("talk login flow", function () {
       email: "adjskdjsk@mail.com",
       password: "",
     });
-    await LoginScreen.submitButtonStatus();
+    await LoginScreen.submitisEnabled();
   });
 
   it ("user cant login by inputting password only", async function () {
@@ -59,22 +60,25 @@ describe("talk login flow", function () {
       email: "",
       password: "admin",
     });
-    await LoginScreen.submitButtonStatus();
+    await LoginScreen.submitisEnabled();
   });
 
-  it("user successfully login using email and password!!", async function () {
+  it("user should login using email and password!!", async function () {
     await LoginScreen.setCredentials({
-      email: "motivation@mail.com",
+      email: "foodlife@mail.com",
       password: "admin",
     });
     await LoginScreen.submit();
-    await driver.pause(5000);
+    await driver.pause(3000);
 
+    await handleSavePass(driver);
+      
     const permissionDialog = await driver.$('id=com.fdc_machetalk_broadcaster:id/ll_permission_dialog');
-    const permissionShow = await permissionDialog.isDisplayed();
-
-        if (!permissionShow) {
+    const permissionShow = await permissionDialog.isDisplayed().catch(() => false);
+      if (!permissionShow) {
            throw new Error("login fail - permission is not visible");
         }
+        console.log("permission dialog is visible - user successfully login");
+        
   });
 });

@@ -53,7 +53,7 @@ export const LoginScreen =  {
         return await errorMessage.getText();
     },
 
-    async submitButtonStatus () {
+    async submitisEnabled () {
         const button = await this.driver.$('id=com.fdc_machetalk_broadcaster:id/btnLogin');
         await button.waitForDisplayed({timeout:3000});
         const isEnabled = button.getAttribute("enabled");
