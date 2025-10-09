@@ -94,6 +94,16 @@ git push origin main - oush changes to main
 git pull --rebase origin main - pull main to local 
 
 
+========================== BEFORE ASYNC FUNCTION ===============================
+       driver = await remote({
+      path: "/",
+      port: 4723,
+      hostname: "127.0.0.1",
+      logLevel: "error",
+      capabilities: emulatorCapsReset,
+========================== BEFORE ASYNC FUNCTION ===============================
+
+
 
 
 
