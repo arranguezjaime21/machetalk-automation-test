@@ -1,5 +1,5 @@
 import { remote } from "webdriverio";
-import { ScreenCallAppeal} from "../../talk-screens/search.screen.js";
+import { CallAppeal, CallSettings } from "../../talk-screens/search.screen.js";
 import { emulatorCaps } from "../../helpers/capabilities.js";
 
 
@@ -17,7 +17,8 @@ describe ("update call appeal in search page", function () {
             capabilities: emulatorCaps,
         });
 
-        ScreenCallAppeal.driver = driver;
+        CallAppeal.driver = driver;
+        CallSettings.driver = driver;
 
  
     });
@@ -29,32 +30,33 @@ describe ("update call appeal in search page", function () {
     });
 
     it ("updating call appeal 1", async function () {
-        await ScreenCallAppeal.callAppealIcon();
-        await ScreenCallAppeal.setAppeal(0);
+        await CallSettings.searchNavOption();
+        await CallAppeal.callAppealIcon();
+        await CallAppeal.setAppeal(0);
     });
     it ("updating call appeal 2", async function () {
-        await ScreenCallAppeal.callAppealIcon();
-        await ScreenCallAppeal.setAppeal(1);
+        await CallAppeal.callAppealIcon();
+        await CallAppeal.setAppeal(1);
     });
     it ("updating call appeal 3", async function () {
-        await ScreenCallAppeal.callAppealIcon();
-        await ScreenCallAppeal.setAppeal(2);
+        await CallAppeal.callAppealIcon();
+        await CallAppeal.setAppeal(2);
     });
     it ("updating call appeal 4", async function () {
-        await ScreenCallAppeal.callAppealIcon();
-        await ScreenCallAppeal.setAppeal(3);
+        await CallAppeal.callAppealIcon();
+        await CallAppeal.setAppeal(3);
     });
     it ("updating call appeal 5", async function () {
-        await ScreenCallAppeal.callAppealIcon();
-        await ScreenCallAppeal.setAppeal(4);
+        await CallAppeal.callAppealIcon();
+        await CallAppeal.setAppeal(4);
     });
     it ("updating call appeal 6", async function () {
-        await ScreenCallAppeal.callAppealIcon();
-        await ScreenCallAppeal.setAppeal(5);
+        await CallAppeal.callAppealIcon();
+        await CallAppeal.setAppeal(5);
     });
     it ("updating call appeal 7", async function () {
-        await ScreenCallAppeal.callAppealIcon();
-        await ScreenCallAppeal.setAppeal(6);
+        await CallAppeal.callAppealIcon();
+        await CallAppeal.setAppeal(6);
     });
 
 });

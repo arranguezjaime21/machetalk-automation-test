@@ -3,18 +3,19 @@ import { callSettingsConfig } from "../config/callsettings.js";
 
 
 // call settings 
-export const ScreenCallSettings = { 
+export const CallSettings = { 
 
     driver: null,
 
     async searchNavOption () { 
         const navIcon1 = this.driver.$('(//android.widget.ImageView[@resource-id="com.fdc_machetalk_broadcaster:id/icon"])[1]');
+        await navIcon1.waitForDisplayed({timeou:3000});
         await navIcon1.click();
     },
 
     async searchCallSettings() {
         const searchScreenCallSettings = await this.driver.$('id=com.fdc_machetalk_broadcaster:id/image_button_settings');
-        await searchScreenCallSettings.waitForDisplayed({ timeout: 3000});
+        await searchScreenCallSettings.waitForDisplayed({ timeout: 5000});
         await searchScreenCallSettings.click();
     },   
 
@@ -45,7 +46,7 @@ export const ScreenCallSettings = {
 }
 
 //set call appeal 
-export const ScreenCallAppeal = {
+export const CallAppeal = {
 
     driver: null,
 
@@ -67,8 +68,8 @@ export const ScreenCallAppeal = {
         if (isVisible) {
             console.log("user call settings is off");
             //calling the call settings function
-            ScreenCallSettings.driver = this.driver;
-            await ScreenCallSettings.setCallSettings("enableAudioVideo");
+            CallSettings.driver = this.driver;
+            await CallSettings.setCallSettings("enableAudioVideo");
             console.log("users call settings successfully enabled");
         }
             console.log("user call settings already turned on")

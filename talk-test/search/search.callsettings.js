@@ -1,6 +1,6 @@
 import { remote } from "webdriverio";
 import { emulatorCaps } from "../../helpers/capabilities.js";
-import { ScreenCallSettings } from "../../talk-screens/search.screen.js";
+import { CallSettings } from "../../talk-screens/search.screen.js";
 
 
 describe ("allow user call settings via search page", function () {
@@ -17,7 +17,7 @@ describe ("allow user call settings via search page", function () {
             capabilities: emulatorCaps,
         });
 
-        ScreenCallSettings.driver = driver;
+        CallSettings.driver = driver;
  
     });
 
@@ -28,23 +28,23 @@ describe ("allow user call settings via search page", function () {
     });
 
     it ("disabling users video call settings", async function () {
-        await ScreenCallSettings.searchNavOption();
-        await ScreenCallSettings.searchCallSettings();
-        await ScreenCallSettings.setCallSettings("disableVideoOnly");
+        await CallSettings.searchNavOption();
+        await CallSettings.searchCallSettings();
+        await CallSettings.setCallSettings("disableVideoOnly");
     });
 
     it ("disabling users video and audio call settings", async function () {
-        await ScreenCallSettings.searchCallSettings();
-        await ScreenCallSettings.setCallSettings("disableAudioVideo");
+        await CallSettings.searchCallSettings();
+        await CallSettings.setCallSettings("disableAudioVideo");
     });
 
     it (" enabling users audio call settings ", async function () {
-        await ScreenCallSettings.searchCallSettings();
-        await ScreenCallSettings.setCallSettings("enableAudioCall");      
+        await CallSettings.searchCallSettings();
+        await CallSettings.setCallSettings("enableAudioCall");      
     });
 
     it (" enabling users video and audio call settings ", async function () {
-        await ScreenCallSettings.searchCallSettings();
-        await ScreenCallSettings.setCallSettings("enableAudioVideo");      
+        await CallSettings.searchCallSettings();
+        await CallSettings.setCallSettings("enableAudioVideo");      
     });
 });

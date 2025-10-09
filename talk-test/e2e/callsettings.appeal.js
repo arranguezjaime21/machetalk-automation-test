@@ -1,9 +1,10 @@
 import { remote } from "webdriverio";
 import { LoginScreen } from "../../talk-screens/login.screen.js";
 import { PermissionModal } from "../../talk-screens/permission.screen.js";
-import { ScreenCallAppeal, ScreenCallSettings } from "../../talk-screens/search.screen.js";
+import { CallAppeal, CallSettings } from "../../talk-screens/search.screen.js";
 import { emulatorCapsReset } from "../../helpers/capabilities.js";
 import { handleSavePass } from "../../helpers/handleSavePassPopup.js";
+import { Logout } from "../../talk-screens/mypage.screen.js";
 
 describe("end to end test for user login and set call appeal with enabled call settings", function () {
   let driver;
@@ -21,8 +22,9 @@ describe("end to end test for user login and set call appeal with enabled call s
 
     LoginScreen.driver = driver;
     PermissionModal.driver = driver;
-    ScreenCallAppeal.driver = driver;
-    ScreenCallSettings.driver = driver;
+    CallAppeal.driver = driver;
+    CallSettings.driver = driver;
+    Logout.driver = driver;
     
   });
 
@@ -48,12 +50,15 @@ describe("end to end test for user login and set call appeal with enabled call s
     //allow app permissions camera/mic/bluetooth and notification
     await PermissionModal.allowPermission();
     //navigate search page
-    await ScreenCallSettings.searchNavOption();
+    await CallSettings.searchNavOption();
     //select call settings and turn on voice video settings
-    await ScreenCallSettings.searchCallSettings();
-    await ScreenCallSettings.setCallSettings("enableAudioVideo"); 
+    await CallSettings.searchCallSettings();
+    await CallSettings.setCallSettings("enableAudioVideo"); 
     //set user appeal
-    await ScreenCallAppeal.callAppealIcon();
-    await ScreenCallAppeal.setAppeal(0);  
+    await CallAppeal.callAppealIcon();
+    await CallAppeal.setAppeal(0);  
+
+    //logout user
+    await Logout.userLogout();
   });
 });
