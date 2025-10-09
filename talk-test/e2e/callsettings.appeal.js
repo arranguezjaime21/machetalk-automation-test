@@ -5,6 +5,7 @@ import { CallAppeal, CallSettings } from "../../talk-screens/search.screen.js";
 import { emulatorCapsReset } from "../../helpers/capabilities.js";
 import { handleSavePass } from "../../helpers/handleSavePassPopup.js";
 import { Logout } from "../../talk-screens/mypage.screen.js";
+import { user } from "../../test-data/user.js";
 
 describe("end to end test for user login and set call appeal with enabled call settings", function () {
   let driver;
@@ -33,6 +34,7 @@ describe("end to end test for user login and set call appeal with enabled call s
         await driver.deleteSession();
     }
   });
+  user.forEach((user) => {
   it ("user login, allow permission settings, update call settings and set call appeal", async function () {
     //navigate login sns screen
     await LoginScreen.gotoMailLogin();
@@ -40,8 +42,8 @@ describe("end to end test for user login and set call appeal with enabled call s
     await LoginScreen.loginMailButton();
     //login user account with user credentials
     await LoginScreen.setCredentials({
-      email: "oreo@mail.com",
-      password: "admin",
+      email: user.email,
+      password: user.password,
     });
     await LoginScreen.submit();
     await driver.pause(5000);
@@ -61,4 +63,5 @@ describe("end to end test for user login and set call appeal with enabled call s
     //logout user
     await Logout.userLogout();
   });
+});
 });

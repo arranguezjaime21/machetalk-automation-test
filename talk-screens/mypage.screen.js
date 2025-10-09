@@ -4,7 +4,7 @@ export const MyPage = {
 
     async navMyPage () {
         const mypage = await this.driver.$('(//android.widget.ImageView[@resource-id="com.fdc_machetalk_broadcaster:id/icon"])[5]');
-        await mypage.waitForDisplayed({timeout:3000});
+        await mypage.waitForDisplayed({timeout:5000});
         await mypage.click();
     },
 
@@ -22,7 +22,6 @@ export const Logout = {
     async userLogout () {
 
         MyPage.driver = this.driver;
-        await this.driver.pause(5000);
         await MyPage.navMyPage();
         await MyPage.variousSettings();
 
@@ -30,17 +29,14 @@ export const Logout = {
         await logout.waitForDisplayed({timeout:3000});
         for (let i =0; i < 10; i++) {
             await logout.click();
-            await this.driver.pause(100);
+            await this.driver.pause(50);
         } 
 
         const logoutModal = await this.driver.$('id=com.fdc_machetalk_broadcaster:id/rl_message');
         const isLogoutModalVisible = await logoutModal.isDisplayed().catch(() => false);
 
-        if (isLogoutModalVisible) {
+        if (!isLogoutModalVisible) throw new Error("Logout modal did not appear after 10 taps");
             const confirmLogout = await this.driver.$('id=com.fdc_machetalk_broadcaster:id/rl_dialog_confirm');
             await confirmLogout.click();
-        } else {
-            throw new Error("Logout modal did not appear after 10 taps");
         }
-    }
 }
