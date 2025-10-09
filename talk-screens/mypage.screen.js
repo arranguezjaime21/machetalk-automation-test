@@ -15,7 +15,7 @@ export const MyPage = {
         await settings.click();
     }
 }
-
+//logout function
 export const Logout = {
     driver: null,
 
