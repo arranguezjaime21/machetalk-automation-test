@@ -31,7 +31,7 @@ describe("Template Settings Screen Test", function () {
 
   it ("create text template from template settings screen", async function () {
     await TemplateSettings.templateScreen();
-    await TemplateSettings.setTemplate({
+    await TemplateSettings.setTemplateDescription({
         description: FakeData.randomSentence(),
     });
     await TemplateSettings.saveTemplate();

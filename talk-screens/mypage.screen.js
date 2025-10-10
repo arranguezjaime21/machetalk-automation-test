@@ -70,10 +70,36 @@ export const TemplateSettings = {
         }
     },
 
-    async setTemplate ({description}) {
+    async setTemplateDescription ({description}) {
         const templateDescription = await this.driver.$('id=com.fdc_machetalk_broadcaster:id/et_template_content');
         await templateDescription.waitForDisplayed({timeout:3000});
         await templateDescription.setValue(description);
+    },
+
+    async setTemplateImage () {
+        const imageIcon = await this.driver.$('id=com.fdc_machetalk_broadcaster:id/rl_template_image');
+        await imageIcon.waitForDisplayed({timeout:3000});
+        await imageIcon.click();
+
+        const uploadCamera = await this.driver.$('id=com.fdc_machetalk_broadcaster:id/tv_camera');
+        await uploadCamera.waitForDisplayed({timeout:3000});
+        await uploadCamera.click();
+
+        const captureImage = await this.driver.$('id=com.android.camera2:id/shutter_button');
+        await captureImage.waitForDisplayed({timeout:5000});
+        await captureImage.click();
+
+        const upload = await this.driver.$('id=com.android.camera2:id/done_button');
+        await upload.waitForDisplayed({timeout:5000});
+        await upload.click();
+
+        const uploadPhoto = await this.driver.$('id=com.fdc_machetalk_broadcaster:id/tv_use_photo');
+        await uploadPhoto.waitForDisplayed({timeout:5000});
+        await uploadPhoto.click();
+
+
+
+
     },
 
     async saveTemplate () {
