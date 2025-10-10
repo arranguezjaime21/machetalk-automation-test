@@ -9,7 +9,7 @@ export const CallSettings = {
 
     async searchNavOption () { 
         const navIcon1 = this.driver.$('(//android.widget.ImageView[@resource-id="com.fdc_machetalk_broadcaster:id/icon"])[1]');
-        await navIcon1.waitForDisplayed({timeou:3000});
+        await navIcon1.waitForDisplayed({timeout:3000});
         await navIcon1.click();
     },
 

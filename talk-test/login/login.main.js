@@ -2,6 +2,7 @@ import { remote } from "webdriverio";
 import { LoginScreen } from "../../talk-screens/login.screen.js";
 import { emulatorCapsReset } from "../../helpers/capabilities.js";
 import { handleSavePass } from "../../helpers/handleSavePassPopup.js";
+import { user } from "../../test-data/user.js";
 
 
 
@@ -63,10 +64,11 @@ describe("talk login flow", function () {
     await LoginScreen.submitisEnabled();
   });
 
+  user.forEach((user) => {
   it("user should login using email and password!!", async function () {
     await LoginScreen.setCredentials({
-      email: "foodlife@mail.com",
-      password: "admin",
+      email: user.email,
+      password: user.password,
     });
     await LoginScreen.submit();
     await driver.pause(3000);
@@ -80,5 +82,6 @@ describe("talk login flow", function () {
         }
         console.log("permission dialog is visible - user successfully login");
         
+  });
   });
 });

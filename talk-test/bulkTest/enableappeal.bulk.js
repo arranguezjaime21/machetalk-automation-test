@@ -66,7 +66,7 @@ describe("Login multiple users and update call appeal", function () {
         await CallAppeal.callAppealIcon();
         await CallAppeal.setAppeal(2);
         
-         //logout user
+        //logout user
         await Logout.userLogout();
         await driver.pause(3000);
         
