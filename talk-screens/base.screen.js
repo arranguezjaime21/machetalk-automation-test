@@ -4,8 +4,8 @@ export class BasePage {
     }
 
     async waitAndClick(selector, timeout = 5000) {
-        const el = await this.driver.$(selector);
-        await el.waitAndClick({timeout})
-        
+        const element = await this.driver.$(selector);
+        await element.waitForDisplayed({ timeout });
+        await element.click();
     }
 }

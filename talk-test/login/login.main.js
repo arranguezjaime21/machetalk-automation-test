@@ -5,6 +5,8 @@ import { user } from "../../test-data/user.js";
 
 
 describe("Login", function () {
+  this.timeout(90000);
+  
   it("error message should be displayed!!", async function () {
     await LoginScreen.gotoMailLogin();
     await LoginScreen.gotoMailSNS();

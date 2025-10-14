@@ -1,4 +1,4 @@
-import { CssSpace } from "@faker-js/faker";
+
 
 export const MyPage = {
     driver: null,
@@ -96,10 +96,6 @@ export const TemplateSettings = {
         const uploadPhoto = await this.driver.$('id=com.fdc_machetalk_broadcaster:id/tv_use_photo');
         await uploadPhoto.waitForDisplayed({timeout:5000});
         await uploadPhoto.click();
-
-
-
-
     },
 
     async saveTemplate () {
