@@ -8,4 +8,15 @@ export class BasePage {
         await element.waitForDisplayed({ timeout });
         await element.click();
     }
+    async setValue(selector, value, timeout = 3000) {
+        const element = await this.$(selector, timeout);
+        await element.clearValue();
+        await element.setValue(value);
+    }
+
+    async $(selector, timeout = 3000) {
+        const element = await this.driver.$(selector);
+        await element.waitForDisplayed({ timeout });
+        return element;
+  }
 }

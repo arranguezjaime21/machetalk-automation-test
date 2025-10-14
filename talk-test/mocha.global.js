@@ -20,12 +20,15 @@ async beforeAll() {
       capabilities: emulatorCaps,
     });
 
+    global.loginScreen = new LoginScreen(global.driver);
+    global.permissionModal = new PermissionModal(global.driver);
+
     //add test files
-    LoginScreen.driver = global.driver;
-    PermissionModal.driver = global.driver;
-    CallSettings.driver = global.driver;
-    CallAppeal.driver = global.driver;
-    Logout.driver = global.driver;
+    // LoginScreen.driver = global.driver;
+    // PermissionModal.driver = global.driver;
+    // CallSettings.driver = global.driver;
+    // CallAppeal.driver = global.driver;
+    // Logout.driver = global.driver;
 },
 
 async afterAll() {

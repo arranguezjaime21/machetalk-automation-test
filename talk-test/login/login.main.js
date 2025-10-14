@@ -1,4 +1,3 @@
-import { LoginScreen } from "../../talk-screens/login.screen.js";
 import { handleSavePass } from "../../helpers/handleSavePassPopup.js";
 import { user } from "../../test-data/user.js";
 
@@ -6,19 +5,16 @@ import { user } from "../../test-data/user.js";
 
 describe("Login", function () {
   this.timeout(90000);
-  
-  it("error message should be displayed!!", async function () {
-    await LoginScreen.gotoMailLogin();
-    await LoginScreen.gotoMailSNS();
-    await LoginScreen.loginMailButton();
 
-    await LoginScreen.setCredentials({
-      email: "adjskdjsk@mail.com",
+  it("error message should be displayed!!", async function () {
+    await loginScreen.gotoMailLogin();
+    await loginScreen.setCredentials({
+      email: "asdadjhcs@mail.com",
       password: "admin",
     });
-    await LoginScreen.submit();
+    await loginScreen.submit();
 
-    const message = await LoginScreen.getErrorMessage();
+    const message = await loginScreen.errMessage();
     console.log("error message shown:", message);
 
     if (message !== "•メールアドレスまたは、パスワードに誤りがあります。") {
@@ -27,28 +23,28 @@ describe("Login", function () {
   });
 
   it ("user cant login by inputting email only", async function () {
-    await LoginScreen.setCredentials({
+    await loginScreen.setCredentials({
       email: "adjskdjsk@mail.com",
       password: "",
     });
-    await LoginScreen.submitisEnabled();
+    await loginScreen.verifySubmitBtn();
   });
 
   it ("user cant login by inputting password only", async function () {
-    await LoginScreen.setCredentials({
+   await loginScreen.setCredentials({
       email: "",
       password: "admin",
     });
-    await LoginScreen.submitisEnabled();
+    await loginScreen.verifySubmitBtn();
   });
 
   user.forEach((user) => {
   it("user should login using email and password!!", async function () {
-    await LoginScreen.setCredentials({
+    await loginScreen.setCredentials({
       email: user.email,
       password: user.password,
     });
-    await LoginScreen.submit();
+    await loginScreen.submit();
     await driver.pause(3000);
 
     await handleSavePass(driver);
@@ -59,7 +55,6 @@ describe("Login", function () {
            throw new Error("login fail - permission is not visible");
         }
         console.log("permission dialog is visible - user successfully login");
-        
   });
   });
 });

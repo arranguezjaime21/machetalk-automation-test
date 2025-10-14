@@ -2,8 +2,7 @@ import { remote } from "webdriverio";
 import { emulatorCapsReset } from "../helpers/capabilities.js";
 import { LoginScreen } from "../talk-screens/login.screen.js";
 import { PermissionModal } from "../talk-screens/permission.screen.js";
-import { CallAppeal, CallSettings } from "../talk-screens/search.screen.js";
-import { Logout } from "../talk-screens/mypage.screen.js";
+
 
 
 
@@ -20,17 +19,22 @@ async beforeAll() {
       capabilities: emulatorCapsReset,
     });
 
+
+    global.loginScreen = new LoginScreen(global.driver);
+    global.permissionModal = new PermissionModal(global.driver);
+
     //add test files
-    LoginScreen.driver = global.driver;
-    PermissionModal.driver = global.driver;
-    CallSettings.driver = global.driver;
-    CallAppeal.driver = global.driver;
-    Logout.driver = global.driver;
+
+    // PermissionModal.driver = global.driver;
+    // CallSettings.driver = global.driver;
+    // CallAppeal.driver = global.driver;
+    // Logout.driver = global.driver;
 },
 
 async afterAll() {
     if (global.driver) {
         await global.driver.deleteSession();
+        //console.log("🧹 Session closed");
     }
   },
 };
