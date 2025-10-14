@@ -1,34 +1,10 @@
-import { remote } from "webdriverio";
 import { LoginScreen } from "../../talk-screens/login.screen.js";
-import { emulatorCapsReset } from "../../helpers/capabilities.js";
 import { handleSavePass } from "../../helpers/handleSavePassPopup.js";
 import { user } from "../../test-data/user.js";
 
 
 
-describe("talk login flow", function () {
-  let driver;
-
-  this.timeout(60000);
-
-  before(async function () {
-    driver = await remote({
-      path: "/",
-      port: 4723,
-      hostname: "127.0.0.1",
-      logLevel: "error",
-      capabilities: emulatorCapsReset,
-    });
-
-    LoginScreen.driver = driver;
-  });
-
-  after(async function () {
-    if (driver) {
-        await driver.deleteSession();
-    }
-  });
-
+describe("Login", function () {
   it("error message should be displayed!!", async function () {
     await LoginScreen.gotoMailLogin();
     await LoginScreen.gotoMailSNS();

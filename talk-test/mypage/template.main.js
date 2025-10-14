@@ -29,11 +29,21 @@ describe("Template Settings Screen Test", function () {
     }
   });
 
-  it ("create text template from template settings screen", async function () {
+//   it ("create text template from template settings screen", async function () {
+//     await TemplateSettings.templateScreen();
+//     await TemplateSettings.setTemplateDescription({
+//         description: FakeData.randomSentence(),
+//     });
+//     await TemplateSettings.saveTemplate();
+//     await driver.pause(5000);
+
+//   })
+    it ("create text template from template settings screen", async function () {
     await TemplateSettings.templateScreen();
     await TemplateSettings.setTemplateDescription({
         description: FakeData.randomSentence(),
     });
+    await TemplateSettings.setTemplateImage();
     await TemplateSettings.saveTemplate();
     await driver.pause(5000);
 

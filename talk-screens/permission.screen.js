@@ -31,9 +31,9 @@ export const PermissionModal = {
         if (await allowNotification.isDisplayed().catch(() => false)) {
             console.log("Notification Modal is displayed");
             await allowNotification.click();
-            } else {
-                console.log("Notification already allowed!");
-            }
+        } else {
+            console.log("Notification already allowed!");
+        }
     
     }
 }
