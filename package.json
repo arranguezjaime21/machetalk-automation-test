@@ -1,6 +1,7 @@
 {
   "name": "appium-automation",
   "version": "1.0.0",
+  "type": "module",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -15,7 +16,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@faker-js/faker": "^10.0.0",
+    "@faker-js/faker": "^10.1.0",
     "appium": "^3.0.2",
     "appium-uiautomator2-driver": "^5.0.4",
     "mocha": "^11.7.4",

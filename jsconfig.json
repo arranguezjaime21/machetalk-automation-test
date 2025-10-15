@@ -2,8 +2,13 @@
   "compilerOptions": {
     "module": "esnext",
     "target": "esnext",
-    "checkJs": true,
-    "baseUrl": "."
+    "checkJs": false,
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "paths": {
+      "*": ["./*"]
+    }
   },
-    "include": ["**/*"]
+  "include": ["**/*"],
+  "exclude": ["node_modules"]
 }

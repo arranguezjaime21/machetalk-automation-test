@@ -7,19 +7,20 @@ export class PermissionModal extends BasePage {
         super(driver);
 
         this.selectors = {
-            dialogDisplay: 'id=com.fdc_machetalk_broadcaster:id/ll_permission_dialog',
+            permissionDisplay: 'id=com.fdc_machetalk_broadcaster:id/ll_permission_dialog',
             allowNotif: 'id=com.android.permissioncontroller:id/permission_allow_button' 
         };
     }
-
+    
+    // --- App Permission ---
     async allowPermission () { 
-        const dialog = await this.$(this.selectors.dialogDisplay, 3000)
-        if (!(await dialog.isDisplayed().catch(() => false))) {
-            console.log("permission already allowed!");
+        const dialog = await this.waitAndFind(this.selectors.permissionDisplay, 3000)
+        if (!dialog) {
+            console.log("App permission already allowed!");
             return;
         }
 
-        await dialog.waitForDisplayed({timeout:3000});
+        await dialog.waitForDisplayed({timeout: 5000});
 
         for (const { btnID,btnAllow, name } of PERMISSION_CONFIG ) {
              const btn = await this.driver.$(`id=${btnID}`);
@@ -28,12 +29,12 @@ export class PermissionModal extends BasePage {
              await btn.click();
              const allowBtn = await this.driver.$(`id=${btnAllow}`);
              if (await allowBtn.isDisplayed().catch(() => false)) {
-                console.log(`${name} permission dialog is displayed `);
+                console.log(`${name} permission is displayed `);
                 await allowBtn.click();
              }
         }
          // --- Allow Notification Permission ---
-        const allowNotification = await this.$(this.selectors.allowNotif, 3000);
+        const allowNotification = await this.waitAndFind(this.selectors.allowNotif, 3000);
         if (await allowNotification.isDisplayed().catch(() => false)) {
             console.log("Notification permission is displayed");
             await allowNotification.click();

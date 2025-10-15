@@ -16,29 +16,31 @@ export class LoginScreen extends BasePage {
         };
     }
 
+    // --- Navigation ---
     async gotoMailLogin ()  {
         await this.waitAndClick(this.selectors.mailLoginNav);
         await this.waitAndClick(this.selectors.maillSNS);
         await this.waitAndClick(this.selectors.loginMailBtn);
     }
-
+    // --- Login Button ---
     async submit () {
         await this.waitAndClick(this.selectors.submitBtn);
     }
-
-    async setCredentials ({email, password}) {
+    // --- Input Credentials ---
+    async loginMailFlow ({email, password}) {
         await this.setValue(this.selectors.inputEmail, email);
         await this.setValue(this.selectors.inputPassword, password);
+        await this.waitAndClick(this.selectors.submitBtn);
     }
-    
+    // --- Error Handling ---
     async errMessage () {
-        const el = await this.$(this.selectors.getErrMsg, 10000);
+        const el = await this.waitAndFind(this.selectors.getErrMsg, 10000);
         return await el.getText();
     }
 
-
+    // --- Button State Verification ---
     async verifySubmitBtn () {
-        const button = await this.$(this.selectors.submitBtnStats);
+        const button = await this.waitAndFind(this.selectors.submitBtnStats);
         const isEnabled = await button.getAttribute("enabled");
 
         if (isEnabled === "true") {

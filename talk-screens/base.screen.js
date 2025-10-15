@@ -9,14 +9,19 @@ export class BasePage {
         await element.click();
     }
     async setValue(selector, value, timeout = 3000) {
-        const element = await this.$(selector, timeout);
+        const element = await this.driver.$(selector, timeout);
         await element.clearValue();
         await element.setValue(value);
     }
 
-    async $(selector, timeout = 3000) {
-        const element = await this.driver.$(selector);
-        await element.waitForDisplayed({ timeout });
-        return element;
+    async waitAndFind(selector, timeout = 3000) {
+        try {
+            const element = await this.driver.$(selector);
+            await element.waitForDisplayed({ timeout });
+            return element;
+        } catch {
+            return null;
+        }
+        
   }
 }
