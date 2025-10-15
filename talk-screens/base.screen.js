@@ -22,6 +22,13 @@ export class BasePage {
         } catch {
             return null;
         }
-        
-  }
+    }
+    async elementExists(selector, timeout = 3000) {
+    try {
+        const element = await this.waitAndFind(selector, timeout);
+        return element ? await element.isDisplayed().catch(() => false) : false;
+    } catch {
+        return false;
+        }
+    }
 }

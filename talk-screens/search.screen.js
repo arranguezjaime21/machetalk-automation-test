@@ -1,91 +1,103 @@
 import { AppealOption } from "../config/callappeal.config.js";
 import { callSettingsConfig } from "../config/callsettings.js";
+import { BasePage } from "./base.screen.js";
 
 
 // call settings 
-export const CallSettings = { 
+export class CallSettings extends BasePage { 
+    constructor(driver) {
+        super(driver);
+    
 
-    driver: null,
+        this.selectors = {
+            searchPageNav: '(//android.widget.ImageView[@resource-id="com.fdc_machetalk_broadcaster:id/icon"])[1]',
+            callSettingsBtn: 'id=com.fdc_machetalk_broadcaster:id/image_button_settings',
+            callSettingsStatus: 'id=com.fdc_machetalk_broadcaster:id/tv_status_info',
+            closedBtn: 'id=com.fdc_machetalk_broadcaster:id/btnCancel',
 
-    async searchNavOption () { 
-        const navIcon1 = this.driver.$('(//android.widget.ImageView[@resource-id="com.fdc_machetalk_broadcaster:id/icon"])[1]');
-        await navIcon1.waitForDisplayed({timeout:3000});
-        await navIcon1.click();
-    },
 
-    async searchCallSettings() {
-        const searchScreenCallSettings = await this.driver.$('id=com.fdc_machetalk_broadcaster:id/image_button_settings');
-        await searchScreenCallSettings.waitForDisplayed({ timeout: 5000});
-        await searchScreenCallSettings.click();
-    },   
+        };
+    }
+
+    async navSearchPage() { 
+        await this.waitAndClick(this.selectors.searchPageNav);
+    }
+
+    async callSettingsIcon() {
+        await this.waitAndClick(this.selectors.callSettingsBtn);
+    } 
 
     async handleCallSettings({ buttonID, enableStatus, disableStatus, currentStatus }) {                        
         const button = await this.driver.$(`id=${buttonID}`);
-        const statusState = await this.driver.$('id=com.fdc_machetalk_broadcaster:id/tv_status_info');
-        await statusState.waitForDisplayed({timeout:5000});
-        const getStatus = await statusState.getAttribute("text");
-        const closeModal = await this.driver.$('id=com.fdc_machetalk_broadcaster:id/btnCancel');
+        const status = await this.waitAndFind(this.selectors.callSettingsStatus, 5000);
+        const getStatus = await status.getAttribute("text");
+        
 
             if (enableStatus.includes(getStatus)) {
                 await button.waitForDisplayed({timeout:5000});
                 await button.click();
             } else if (disableStatus.includes(getStatus)) {
                 console.log(currentStatus);
-                await closeModal.click();
+                const close = await this.waitAndClick(this.selectors.closedBtn);
             } else {
                 console.log(`unexpected error state: ${getStatus}`);
             }
-    },
+    }
 
     async setCallSettings (settingName) {
         if (!callSettingsConfig[settingName]) {
             throw new Error (`unknown call setting: ${settingName}`);
         } 
         await this.handleCallSettings(callSettingsConfig[settingName]);
-    }, 
+    }
 }
 
-//set call appeal 
-export const CallAppeal = {
+// --- Set Call Appeal ---
+export class CallAppeal extends BasePage {
+    constructor(driver) {
+        super(driver);
 
-    driver: null,
+        this.callSettings = new CallSettings(driver);
 
+        this.selectors = {
+           appealIcon: 'id=com.fdc_machetalk_broadcaster:id/rlStrength',
+            callSettingsVisible: 'id=com.fdc_machetalk_broadcaster:id/rl_options',
+            toastMessage: 'id=com.fdc_machetalk_broadcaster:id/tv_message',
+        };
+    }
 
     async callAppealIcon () {
-        const icon = await this.driver.$('id=com.fdc_machetalk_broadcaster:id/rlStrength');
-        await icon.waitForDisplayed({timeout:5000});
-        await icon.click();
-    },
+        await this.waitAndClick(this.selectors.appealIcon);
+    }
 
     async selectAppeal ({ btnID, name }) {
-        const btnAppeal = await this.driver.$(`${btnID}`);
+        const btnAppeal = await this.waitAndFind(btnID, 5000);
+        if (!btnAppeal) throw new Error (`Appeal button not found: ${btnID}`);
         await btnAppeal.click();
        
-        const callSettings = await this.driver.$('id=com.fdc_machetalk_broadcaster:id/rl_options');
-        const isVisible = await callSettings.isDisplayed().catch(() => false);
-
-        //select appeal
+        const isVisible = await this.elementExists(this.selectors.callSettingsVisible, 5000);
         if (isVisible) {
             console.log("user call settings is off");
-            //calling the call settings function
-            CallSettings.driver = this.driver;
-            await CallSettings.setCallSettings("enableAudioVideo");
-            console.log("users call settings successfully enabled");
+            await callSettings.setCallSettings("enableAudioVideo");
+        } else {
+            console.log("user call settings already turned on");
         }
-            console.log("user call settings already turned on")
-            const toast = await this.driver.$('id=com.fdc_machetalk_broadcaster:id/tv_message');
-            await toast.waitForDisplayed({ timeout: 3000 });
-            const toastText = await toast.getAttribute("text");
-            console.log(`Appeal "${name}" set successfully — Toast: ${toastText}`);
 
-    },
+        const toast = await this.waitAndFind(this.selectors.toastMessage, 5000);
+        if (toast) {
+            const toastText = await toast.getAttribute("text").catch(() => "(no toast text)" );
+            console.log(`Appeal "${name}" set successfully — Toast: ${toastText}`)
+        } else {
+            console.warn("Toast message not visible or disappeared too quickly.");
+        }
+    }
 
-     async setAppeal (settingIndex) {
+    async setAppeal (settingIndex) {
         const appeal = AppealOption[settingIndex];
         if (!appeal) {
-            throw new Error (`unknown call setting: ${settingIndex}`);
+            throw new Error (`unknown call setsting: ${settingIndex}`);
         } 
         await this.selectAppeal(appeal);
-    }, 
+    }
     
 }

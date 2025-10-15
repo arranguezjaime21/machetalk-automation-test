@@ -3,7 +3,7 @@ import { emulatorCaps } from "../helpers/capabilities.js";
 import { PermissionModal } from "../talk-screens/permission.screen.js";
 import { LoginScreen } from "../talk-screens/login.screen.js";
 import { CallAppeal, CallSettings } from "../talk-screens/search.screen.js";
-import { Logout } from "../talk-screens/mypage.screen.js";
+import { Logout, MyPage } from "../talk-screens/mypage.screen.js";
 
 
 
@@ -22,13 +22,10 @@ async beforeAll() {
 
     global.loginScreen = new LoginScreen(global.driver);
     global.permissionModal = new PermissionModal(global.driver);
-
-    //add test files
-    // LoginScreen.driver = global.driver;
-    // PermissionModal.driver = global.driver;
-    // CallSettings.driver = global.driver;
-    // CallAppeal.driver = global.driver;
-    // Logout.driver = global.driver;
+    global.callSettings = new CallSettings(global.driver);
+    global.callAppeal = new CallAppeal(global.driver);
+    global.logout = new Logout(global.driver);
+    global.myPage = new MyPage(global.driver);
 },
 
 async afterAll() {
