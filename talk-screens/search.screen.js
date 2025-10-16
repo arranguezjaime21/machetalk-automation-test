@@ -71,19 +71,17 @@ export class CallAppeal extends BasePage {
     }
 
     async selectAppeal ({ btnID, name }) {
-        const btnAppeal = await this.waitAndFind(btnID, 5000);
+        const btnAppeal = await this.waitAndFind(btnID, 2000);
         if (!btnAppeal) throw new Error (`Appeal button not found: ${btnID}`);
         await btnAppeal.click();
        
-        const isVisible = await this.elementExists(this.selectors.callSettingsVisible, 5000);
+        const isVisible = await this.elementExists(this.selectors.callSettingsVisible, 2000);
         if (isVisible) {
-            console.log("user call settings is off");
+            console.log("call settings is off, turning on....");
             await callSettings.setCallSettings("enableAudioVideo");
-        } else {
-            console.log("user call settings already turned on");
-        }
+        } 
 
-        const toast = await this.waitAndFind(this.selectors.toastMessage, 5000);
+        const toast = await this.waitAndFind(this.selectors.toastMessage, 2000);
         if (toast) {
             const toastText = await toast.getAttribute("text").catch(() => "(no toast text)" );
             console.log(`Appeal "${name}" set successfully — Toast: ${toastText}`)

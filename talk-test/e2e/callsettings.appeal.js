@@ -1,37 +1,33 @@
-import { LoginScreen } from "../../talk-screens/login.screen.js";
-import { PermissionModal } from "../../talk-screens/permission.screen.js";
-import { CallAppeal, CallSettings } from "../../talk-screens/search.screen.js";
 import { handleSavePass } from "../../helpers/handleSavePassPopup.js";
-import { Logout } from "../../talk-screens/mypage.screen.js";
 import { user } from "../../test-data/user.js";
 
 describe("E2E Call Settings and Update Call Appeal", function () {
+  this.timeout(90000);
+
   user.forEach((user) => {
-  it ("user login, allow permission settings, update call settings and set call appeal", async function () {
+  it ("Login and update call appeal", async function () {
     // --- Login ---
-    await LoginScreen.gotoMailLogin();
-    await LoginScreen.gotoMailSNS();
-    await LoginScreen.loginMailButton();
-    await LoginScreen.setCredentials({
+    await loginScreen.gotoMailLogin();
+    await loginScreen.loginMailFlow ({
       email: user.email,
       password: user.password,
     });
-    await LoginScreen.submit();
     await driver.pause(5000);
     // --- Save Password ---
     await handleSavePass(driver);
     // --- Permission ---
-    await PermissionModal.allowPermission();
+    await
+     permissionModal.allowPermission();
     // --- Call Settings ---
-    await CallSettings.searchNavOption();
-    await CallSettings.searchCallSettings();
-    await CallSettings.setCallSettings("enableAudioVideo"); 
+    await callSettings.navSearchPage()
+    await callSettings.callSettingsIcon();
+    await callSettings.setCallSettings("enableAudioVideo");
     // --- Call Appeal ---
-    await CallAppeal.callAppealIcon();
-    await CallAppeal.setAppeal(0);  
+    await callAppeal.callAppealIcon();
+    await callAppeal.setAppeal(3);
 
     // --- Logout ---
-    await Logout.userLogout();
+    await logout.userLogout();
   });
 });
 });
