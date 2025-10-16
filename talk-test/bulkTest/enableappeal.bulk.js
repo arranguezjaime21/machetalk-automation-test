@@ -1,7 +1,7 @@
 import { users } from "../../test-data/bulkusers.js";
 import { handleSavePass } from "../../helpers/handleSavePassPopup.js";
 
-describe("Login multiple users and update call appeal", function () {
+describe("⚡️ Login multiple users and update call appeal", function () {
   this.timeout(120000);
 
   users.forEach((user, index) => {

@@ -3,7 +3,7 @@ import { user } from "../../test-data/user.js";
 
 
 
-describe("Login", function () {
+describe("⚡️ Login", function () {
   this.timeout(90000);
 
   it("Login Fail", async function () {
@@ -14,10 +14,10 @@ describe("Login", function () {
     });
 
     const message = await loginScreen.errMessage();
-    console.log("error message shown:", message);
+    console.log("⚠️ error message shown:", message);
 
     if (message !== "•メールアドレスまたは、パスワードに誤りがあります。") {
-      throw new Error(`unexpected error message: ${message}`);
+      throw new Error(`⚠️ unexpected error message: ${message}`);
     }
   });
 
@@ -34,9 +34,9 @@ describe("Login", function () {
     const permissionDialog = await driver.$('id=com.fdc_machetalk_broadcaster:id/ll_permission_dialog');
     const permissionShow = await permissionDialog.isDisplayed().catch(() => false);
       if (!permissionShow) {
-           throw new Error("login fail - permission is not visible");
+           throw new Error("⚠️ login fail - permission is not visible");
         }
-        console.log("permission dialog is visible - user successfully login");
+        console.log("🛠️ permission dialog is visible - user successfully login");
   });
   });
 });

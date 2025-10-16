@@ -1,7 +1,7 @@
 import { handleSavePass } from "../../helpers/handleSavePassPopup.js";
 import { user } from "../../test-data/user.js";
 
-describe("E2E Call Settings and Update Call Appeal", function () {
+describe("⚡️ E2E Call Settings and Update Call Appeal", function () {
   this.timeout(90000);
 
   user.forEach((user) => {

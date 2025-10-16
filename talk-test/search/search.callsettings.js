@@ -1,4 +1,4 @@
-describe ("Call Settings - Search Page", function () {
+describe ("⚡️ Call Settings - Search Page", function () {
     this.timeout(90000);
 
     it ("disabling users video call settings", async function () {

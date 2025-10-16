@@ -5,7 +5,7 @@ import { FakeData } from "../../helpers/faker.helper.js";
 
 
 
-describe("Template Settings Screen Test", function () {
+describe("⚡️ Template Settings Screen Test", function () {
   let driver;
 
   this.timeout(60000);

@@ -50,7 +50,7 @@ export class Logout extends BasePage {
         } 
 
         const logoutModal = await this.elementExists(this.selectors.logoutModal);
-        if (!logoutModal) throw new Error("Logout modal did not appear after 10 taps");
+        if (!logoutModal) throw new Error("⚠️ Logout modal did not appear after 10 taps");
             await this.waitAndClick(this.selectors.logoutConfirm);
         }
 }

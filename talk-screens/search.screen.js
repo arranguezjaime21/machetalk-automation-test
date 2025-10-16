@@ -40,13 +40,13 @@ export class CallSettings extends BasePage {
                 console.log(currentStatus);
                 const close = await this.waitAndClick(this.selectors.closedBtn);
             } else {
-                console.log(`unexpected error state: ${getStatus}`);
+                console.log(`⚠️ unexpected error state: ${getStatus}`);
             }
     }
 
     async setCallSettings (settingName) {
         if (!callSettingsConfig[settingName]) {
-            throw new Error (`unknown call setting: ${settingName}`);
+            throw new Error (`⚠️ unknown call setting: ${settingName}`);
         } 
         await this.handleCallSettings(callSettingsConfig[settingName]);
     }
@@ -72,12 +72,12 @@ export class CallAppeal extends BasePage {
 
     async selectAppeal ({ btnID, name }) {
         const btnAppeal = await this.waitAndFind(btnID, 2000);
-        if (!btnAppeal) throw new Error (`Appeal button not found: ${btnID}`);
+        if (!btnAppeal) throw new Error (`⚠️ Appeal button not found: ${btnID}`);
         await btnAppeal.click();
        
         const isVisible = await this.elementExists(this.selectors.callSettingsVisible, 2000);
         if (isVisible) {
-            console.log("call settings is off, turning on....");
+            console.log("🛠️ call settings is off, turning on....");
             await callSettings.setCallSettings("enableAudioVideo");
         } 
 
@@ -86,14 +86,14 @@ export class CallAppeal extends BasePage {
             const toastText = await toast.getAttribute("text").catch(() => "(no toast text)" );
             console.log(`Appeal "${name}" set successfully — Toast: ${toastText}`)
         } else {
-            console.warn("Toast message not visible or disappeared too quickly.");
+            console.warn("⚠️ Toast message not visible or disappeared too quickly.");
         }
     }
 
     async setAppeal (settingIndex) {
         const appeal = AppealOption[settingIndex];
         if (!appeal) {
-            throw new Error (`unknown call setsting: ${settingIndex}`);
+            throw new Error (`⚠️ Unknown call setsting: ${settingIndex}`);
         } 
         await this.selectAppeal(appeal);
     }

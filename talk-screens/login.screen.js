@@ -44,7 +44,7 @@ export class LoginScreen extends BasePage {
         const isEnabled = await button.getAttribute("enabled");
 
         if (isEnabled === "true") {
-            throw new Error("login button should be disabled")
+            throw new Error("⚠️ login button should be disabled")
         } else {
             console.log("login button remains disabled");
         }
