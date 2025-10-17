@@ -3,7 +3,7 @@ import { emulatorCapsReset } from "../helpers/capabilities.js";
 import { LoginScreen } from "../talk-screens/login.screen.js";
 import { PermissionModal } from "../talk-screens/permission.screen.js";
 import { Logout, MyPage } from "../talk-screens/mypage.screen.js";
-import { CallAppeal, CallSettings } from "../talk-screens/search.screen.js";
+import { CallAppeal, CallSettings, TemplateSettings } from "../talk-screens/search.screen.js";
 
 export const mochaHooks = {
 async beforeAll() {
@@ -24,6 +24,7 @@ async beforeAll() {
     global.myPage = new MyPage(global.driver);
     global.callAppeal = new CallAppeal(global.driver);
     global.callSettings = new CallSettings(global.driver);
+    global.templateSettings = new TemplateSettings(global.driver);
     
 },
 

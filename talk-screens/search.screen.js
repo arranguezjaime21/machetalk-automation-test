@@ -1,22 +1,16 @@
 import { AppealOption } from "../config/callappeal.config.js";
 import { callSettingsConfig } from "../config/callsettings.js";
 import { BasePage } from "./base.screen.js";
+import { CameraHelper } from "../helpers/camera.helper.js";
+import { SearchScreenSelectors, TemplateSelectors } from "../talk-selectors/selectors.js";
 
 
 // call settings 
 export class CallSettings extends BasePage { 
     constructor(driver) {
         super(driver);
-    
+        this.selectors = SearchScreenSelectors;
 
-        this.selectors = {
-            searchPageNav: '(//android.widget.ImageView[@resource-id="com.fdc_machetalk_broadcaster:id/icon"])[1]',
-            callSettingsBtn: 'id=com.fdc_machetalk_broadcaster:id/image_button_settings',
-            callSettingsStatus: 'id=com.fdc_machetalk_broadcaster:id/tv_status_info',
-            closedBtn: 'id=com.fdc_machetalk_broadcaster:id/btnCancel',
-
-
-        };
     }
 
     async navSearchPage() { 
@@ -56,14 +50,8 @@ export class CallSettings extends BasePage {
 export class CallAppeal extends BasePage {
     constructor(driver) {
         super(driver);
-
+        this.selectors = SearchScreenSelectors;
         this.callSettings = new CallSettings(driver);
-
-        this.selectors = {
-           appealIcon: 'id=com.fdc_machetalk_broadcaster:id/rlStrength',
-            callSettingsVisible: 'id=com.fdc_machetalk_broadcaster:id/rl_options',
-            toastMessage: 'id=com.fdc_machetalk_broadcaster:id/tv_message',
-        };
     }
 
     async callAppealIcon () {
@@ -98,4 +86,76 @@ export class CallAppeal extends BasePage {
         await this.selectAppeal(appeal);
     }
     
+}
+
+export class TemplateSettings extends BasePage{ 
+    constructor(driver) {
+        super(driver);
+        this.driver = driver;
+        this.selectors = TemplateSelectors;
+        this.cameraHelper = new CameraHelper(this.driver, this.waitAndClick.bind(this));
+        this.callSettings = new CallSettings(driver);
+    }
+
+    async navTemplateCard () {
+       try {
+            await this.callSettings.navSearchPage();
+            await this.waitAndClick(this.selectors.templateIcon, 5000);
+        } catch {
+            console.log("search page is not visible");
+        }
+    }
+
+    async templateTitle (expectedTitle) {
+        const title = await this.waitAndGetText(this.selectors.templateTitle);
+
+        if (title !== expectedTitle) {
+            throw new Error (`Incorrect wording is displayed. Expected: "${expectedTitle}", got: "${title}"`);
+        } else {
+            console.log(`${title} is displayed`);
+        }
+        // edit テンプレート編集
+        // new テンプレート作成
+    } 
+
+    async createTextTemplate ({content}) {
+        console.log("> opening template creation screen....");
+        await this.waitAndClick(this.selectors.createTemplate);
+        await this.templateTitle("テンプレート作成");
+
+        console.log("> input random template description....");
+        await this.setValue(this.selectors.templateDescription, content);
+        console.log("Successfully inputted description");
+
+        console.log("> saving template....")
+        await this.waitAndClick(this.selectors.saveTemplate);
+
+        const success = await this.elementExists(this.selectors.successModal, 5000);
+        if (!success) throw new Error ("Unexpected error or modal did not shown");
+        await this.waitAndClick(this.selectors.confirmBtn);
+    }
+
+
+
+    async createImageAndTextTemplate ({content}) {
+        console.log("> opening template creation screen....");
+        await this.waitAndClick(this.selectors.createTemplate);
+        await this.templateTitle("テンプレート作成");
+
+        console.log("> input random template description....");
+        await this.setValue(this.selectors.templateDescription, content);
+        console.log("Successfully inputted description");
+
+        console.log("> upload image via camera roll....");
+        await this.cameraHelper.captureImage(this.selectors);
+        await this.elementExists(this.selectors.iconThumbImage, 3000);
+
+        console.log("> saving template....")
+        await this.waitAndClick(this.selectors.saveTemplate);
+      
+        const success = await this.elementExists(this.selectors.successModal, 5000);
+        if (!success) throw new Error ("Unexpected error or modal did not shown");
+        console.log("modal for template creation is displayed");
+        await this.waitAndClick(this.selectors.confirmBtn);
+    }
 }

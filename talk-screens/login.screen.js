@@ -1,21 +1,11 @@
+import { LoginScreenSelectors } from "../talk-selectors/selectors.js";
 import { BasePage } from "./base.screen.js";
 
 export class LoginScreen extends BasePage {
     constructor(driver) {
         super(driver);
-
-        this.selectors = {
-            mailLoginNav: 'id=com.fdc_machetalk_broadcaster:id/tvLogin',
-            maillSNS: 'id=com.fdc_machetalk_broadcaster:id/btnOtherMethod',
-            loginMailBtn: 'id=com.fdc_machetalk_broadcaster:id/btnLogin',
-            submitBtn: 'id=com.fdc_machetalk_broadcaster:id/btnLogin',
-            inputEmail: 'id=com.fdc_machetalk_broadcaster:id/txtEmail',
-            inputPassword: 'id=com.fdc_machetalk_broadcaster:id/txtPassword',
-            getErrMsg: 'id=com.fdc_machetalk_broadcaster:id/tvErrorMsg',
-            submitBtnStats: 'id=com.fdc_machetalk_broadcaster:id/btnLogin'
-        };
+        this.selectors = LoginScreenSelectors;
     }
-
     // --- Navigation ---
     async gotoMailLogin ()  {
         await this.waitAndClick(this.selectors.mailLoginNav);

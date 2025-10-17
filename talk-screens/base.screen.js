@@ -31,4 +31,15 @@ export class BasePage {
         return false;
         }
     }
+
+    async waitAndGetText (selector, timeout = 3000) {
+        try {
+            const el = await this.waitAndFind(selector);
+            const text = await el.getText();
+            return text;
+        } catch {
+            return null;
+        }
+    }
+
 }
