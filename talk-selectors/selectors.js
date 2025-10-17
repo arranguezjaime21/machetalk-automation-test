@@ -46,4 +46,21 @@ export const TemplateSelectors = {
     btnConfirm: 'id=com.android.camera2:id/done_button',
     btnUpload: 'id=com.fdc_machetalk_broadcaster:id/tv_use_photo',
 
+    // -- close/ cancel button -- 
+    closedTemplate: 'id=com.fdc_machetalk_broadcaster:id/close_button',
+    cancelBtn: 'id=com.fdc_machetalk_broadcaster:id/tv_cancel',
+
+};
+
+export const MyPageSelectors = {
+    // --- My Page Items ---
+    myPageNav: '(//android.widget.ImageView[@resource-id="com.fdc_machetalk_broadcaster:id/icon"])[5]',
+    myPageSettings: 'android=new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().resourceId("com.fdc_machetalk_broadcaster:id/rl_settings"))',
+    myPageTemplateSettings: 'id=com.fdc_machetalk_broadcaster:id/linear_layout_template_settings',
+
+    // -- Logout --
+    logoutBtn: '//androidx.recyclerview.widget.RecyclerView[@resource-id="com.fdc_machetalk_broadcaster:id/rv_settings_menu"]/android.widget.RelativeLayout[9]',
+    logoutModal: 'id=com.fdc_machetalk_broadcaster:id/rl_message',
+    logoutConfirm: 'id=com.fdc_machetalk_broadcaster:id/rl_dialog_confirm',
+
 }

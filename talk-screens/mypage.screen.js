@@ -1,15 +1,11 @@
+import { MyPageSelectors } from "../talk-selectors/selectors.js"
 import { BasePage } from "./base.screen.js";
 
 
 export class MyPage extends BasePage {
     constructor(driver) {
         super(driver);
-
-        this.selectors = {
-            myPageNav: '(//android.widget.ImageView[@resource-id="com.fdc_machetalk_broadcaster:id/icon"])[5]',
-            myPageSettings: 'android=new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().resourceId("com.fdc_machetalk_broadcaster:id/rl_settings"))',
-            myPageTemplateSettings: 'id=com.fdc_machetalk_broadcaster:id/linear_layout_template_settings',
-        };
+        this.selectors = MyPageSelectors;
     }
 
     async navMyPage () {
@@ -29,14 +25,8 @@ export class MyPage extends BasePage {
 export class Logout extends BasePage {
     constructor(driver) {
         super(driver);
-
+        this.selectors = MyPageSelectors;
         this.myPage = new MyPage(driver);
-
-        this.selectors = {
-            logoutBtn: '//androidx.recyclerview.widget.RecyclerView[@resource-id="com.fdc_machetalk_broadcaster:id/rv_settings_menu"]/android.widget.RelativeLayout[9]',
-            logoutModal: 'id=com.fdc_machetalk_broadcaster:id/rl_message',
-            logoutConfirm: 'id=com.fdc_machetalk_broadcaster:id/rl_dialog_confirm',
-        };
     }
 
     async userLogout () {

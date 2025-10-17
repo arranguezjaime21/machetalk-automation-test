@@ -11,7 +11,8 @@
     "test:permission": "npx mocha --require talk-test/mocha.global.js talk-test/permission/permission.main.js --timeout 60000",
     "test:searchcallappeal": "npx mocha --require talk-test/mocha.global.js talk-test/search/search.callappeal.js --timeout 60000",
     "test:searchcallsettings": "npx mocha --require talk-test/mocha.global.js talk-test/search/search.callsettings.js --timeout 60000",
-    "test:searchtemplate": "npx mocha --require talk-test/mocha.global.js talk-test/search/search.templatesettings.js --timeout 60000"
+    "test:searchtemplate": "npx mocha --require talk-test/mocha.global.js talk-test/search/search.templatesettings.js --timeout 60000",
+    "test:e2ecreatetemplate": "npx mocha --require talk-test/mocha.global.reset.js talk-test/e2e/createTemplate.js --timeout 60000"
   },
   "keywords": [],
   "author": "",

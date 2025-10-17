@@ -158,4 +158,8 @@ export class TemplateSettings extends BasePage{
         console.log("modal for template creation is displayed");
         await this.waitAndClick(this.selectors.confirmBtn);
     }
+
+    async closeTemplate () {
+        await this.waitAndClick(this.selectors.closedTemplate);
+    }
 }
