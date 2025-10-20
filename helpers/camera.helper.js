@@ -1,8 +1,23 @@
 export class CameraHelper {
-    constructor(driver, waitAndClick) {
+    constructor(driver, waitAndClick, waitAndFind, waitAndFind$$) {
         this.driver = driver;
         this.waitAndClick = waitAndClick;
+        this.waitAndFind$$ = waitAndFind$$;
+        this.waitAndFind = waitAndFind;
+        // this.elementExists = elementExists;
     }
+
+
+    // async galleryPermission () {
+    //     const permission = await this.elementExists(this.selectors.libraryDialog, 3000);
+    //     if (!permission) {
+    //         console.log("permission for device library is already allowed");
+    //     } else {
+    //         await this.waitAndClick(this.selectors.allowLibrary);
+    //     } 
+    //     return
+    // }
+
 
     async captureImage(selectors) {
         const steps = [
@@ -19,15 +34,15 @@ export class CameraHelper {
 
         console.log("Image captured and uploaded successfully");
     }
-
-    async selectFromGallery(selectors) {
-        await this.waitAndClick(selectors.imgIconDefault);
-        await this.waitAndClick(selectors.gallery);
-
-        const firstImage = await this.driver.$('//android.widget.ImageView[1]');
-        await firstImage.waitForDisplayed({ timeout: 5000 });
-        await firstImage.click();
-
-        console.log("Image selected from gallery successfully");
+    async uploadFromGallery (selectors) {
+        await this.waitAndClick(selectors.btnID);
+        await this.waitAndClick(selectors.btnGallery);
+        // await this.galleryPermission();
+        await this.waitAndClick(selectors.deviceFile);
+        const gallery = await this.waitAndFind(selectors.deviceGallery);
+        const picture = await this.waitAndFind$$(selectors.galleryItems, 5000);
+        await picture[2].click();
+        await this.waitAndClick(selectors.btnUpload);
+        console.log("Image successfully uploaded");
     }
 }

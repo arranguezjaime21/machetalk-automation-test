@@ -8,6 +8,18 @@ export class BasePage {
         await element.waitForDisplayed({ timeout });
         await element.click();
     }
+    async waitAndFind$$(selector, timeout = 5000) {
+        const elements = await this.driver.$$(selector);
+
+        if (elements.length === 0) {
+            throw new Error(`No elements found for selector: ${selector}`);
+        }
+        for (const el of elements) {
+            await el.waitForDisplayed({ timeout });
+        }
+        return elements;
+    }
+
     async setValue(selector, value, timeout = 3000) {
         const element = await this.driver.$(selector, timeout);
         await element.clearValue();

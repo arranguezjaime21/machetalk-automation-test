@@ -39,16 +39,39 @@ export const TemplateSelectors = {
     successModal: 'id=com.fdc_machetalk_broadcaster:id/message',
     confirmBtn: 'id=com.fdc_machetalk_broadcaster:id/confirmButton',
 
-    // -- camera capture --
+    //camera icon
     btnID: 'id=com.fdc_machetalk_broadcaster:id/rl_template_image',
+
+    // -- camera capture --
     btnCamera: 'id=com.fdc_machetalk_broadcaster:id/tv_camera',
     btnCapture: 'id=com.android.camera2:id/shutter_button',
     btnConfirm: 'id=com.android.camera2:id/done_button',
     btnUpload: 'id=com.fdc_machetalk_broadcaster:id/tv_use_photo',
 
+     // -- gallery --
+     btnGallery: 'id=com.fdc_machetalk_broadcaster:id/tv_gallery',
+     deviceFile: 'id=com.google.android.apps.photos:id/image',
+     deviceGallery: 'id=com.google.android.apps.photos:id/recycler_view',
+     galleryItems: '//android.support.v7.widget.RecyclerView/android.view.ViewGroup',
+
+
+
+
     // -- close/ cancel button -- 
     closedTemplate: 'id=com.fdc_machetalk_broadcaster:id/close_button',
     cancelBtn: 'id=com.fdc_machetalk_broadcaster:id/tv_cancel',
+
+    // -- template deletion --
+    deleteTemplate: 'id=com.fdc_machetalk_broadcaster:id/btn_delete',
+    deletionModalText: 'id=com.fdc_machetalk_broadcaster:id/tv_title', //テンプレートを削除 
+    confirmDeletion: 'id=com.fdc_machetalk_broadcaster:id/tv_confirm',
+
+    // -- template item -
+    templateItem: 'id=com.fdc_machetalk_broadcaster:id/template_item',
+
+    // -- library permission --
+    libraryDialog: "id=com.android.permissioncontroller:id/grant_dialog",
+    allowLibrary: "id=com.android.permissioncontroller:id/permission_allow_all_button",
 
 };
 

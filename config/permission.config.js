@@ -18,4 +18,3 @@ export const PERMISSION_CONFIG = [
     },
 
 ];
-    

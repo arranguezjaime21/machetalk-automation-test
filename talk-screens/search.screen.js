@@ -93,7 +93,7 @@ export class TemplateSettings extends BasePage{
         super(driver);
         this.driver = driver;
         this.selectors = TemplateSelectors;
-        this.cameraHelper = new CameraHelper(this.driver, this.waitAndClick.bind(this));
+        this.cameraHelper = new CameraHelper(this.driver, this.waitAndClick.bind(this), this.waitAndFind.bind(this), this.waitAndFind$$.bind(this));
         this.callSettings = new CallSettings(driver);
     }
 
@@ -117,49 +117,98 @@ export class TemplateSettings extends BasePage{
         // edit テンプレート編集
         // new テンプレート作成
     } 
-
-    async createTextTemplate ({content}) {
-        console.log("> opening template creation screen....");
-        await this.waitAndClick(this.selectors.createTemplate);
-        await this.templateTitle("テンプレート作成");
-
-        console.log("> input random template description....");
-        await this.setValue(this.selectors.templateDescription, content);
-        console.log("Successfully inputted description");
-
-        console.log("> saving template....")
-        await this.waitAndClick(this.selectors.saveTemplate);
-
-        const success = await this.elementExists(this.selectors.successModal, 5000);
-        if (!success) throw new Error ("Unexpected error or modal did not shown");
-        await this.waitAndClick(this.selectors.confirmBtn);
-    }
-
-
-
-    async createImageAndTextTemplate ({content}) {
-        console.log("> opening template creation screen....");
-        await this.waitAndClick(this.selectors.createTemplate);
-        await this.templateTitle("テンプレート作成");
-
-        console.log("> input random template description....");
-        await this.setValue(this.selectors.templateDescription, content);
-        console.log("Successfully inputted description");
-
-        console.log("> upload image via camera roll....");
-        await this.cameraHelper.captureImage(this.selectors);
-        await this.elementExists(this.selectors.iconThumbImage, 3000);
-
-        console.log("> saving template....")
-        await this.waitAndClick(this.selectors.saveTemplate);
-      
-        const success = await this.elementExists(this.selectors.successModal, 5000);
-        if (!success) throw new Error ("Unexpected error or modal did not shown");
-        console.log("modal for template creation is displayed");
-        await this.waitAndClick(this.selectors.confirmBtn);
-    }
-
+   
     async closeTemplate () {
         await this.waitAndClick(this.selectors.closedTemplate);
     }
+
+    async deletionModal (expectedText) {
+        const title = await this.waitAndGetText(this.selectors.deletionModalText);
+        if (title !== expectedText) {
+            throw new Error (`unexpected error occurs!! "${expectedText}" show: "${title}"`); 
+        } else {
+            console.log(`${title} is displayed`);
+        }
+    }
+    async deleteTemplate () {
+        await this.navTemplateCard();
+        const template = await this.waitAndFind$$(this.selectors.deleteTemplate, 3000);
+        if (template.lenght === 0) throw new Error ("No templates found to delete");
+        await template[0].click();
+        await this.deletionModal("テンプレートを削除");
+        await this.waitAndClick(this.selectors.confirmDeletion);
+    }
+
+    async saveAndConfirm () {
+        await this.waitAndClick(this.selectors.saveTemplate);
+
+        const success = await this.elementExists(this.selectors.successModal, 10000);
+        if (!success) throw new Error ("Unexpected error occurs or modal is not displayed!");
+        console.log("modal for template creation is displayed");
+        console.log("> saving template....")
+        await this.waitAndClick(this.selectors.confirmBtn);
+    }
+
+    async fillTemplateImgText ({ description, uploadAction }) {
+        console.log("> filling in template form...");
+        await this.setValue(this.selectors.templateDescription, description);
+        console.log("description entered");
+        console.log("uploading image...");
+        await uploadAction(this.selectors);
+        await this.elementExists(this.selectors.iconThumbImage, 3000);
+        console.log("> image upload confirmed");
+    }
+
+    // -- Text Only --
+    async createTextTemplate ({content}) {
+        await this.navTemplateCard();
+        console.log("> opening template creation screen....");
+        await this.waitAndClick(this.selectors.createTemplate);
+        await this.templateTitle("テンプレート作成");
+        console.log("> input random template description....");
+        await this.setValue(this.selectors.templateDescription, content);
+        console.log("Successfully inputted description");
+        await this.saveAndConfirm();
+    }
+
+    // -- via camera roll --
+    async createImageAndTextTemplate ({content}) {
+        await this.navTemplateCard();
+        console.log("> opening template creation screen....");
+        await this.waitAndClick(this.selectors.createTemplate);
+        await this.templateTitle("テンプレート作成");
+        await this.fillTemplateImgText ({
+            description: content,
+            uploadAction: this.cameraHelper.captureImage.bind(this.cameraHelper),
+        });
+        await this.saveAndConfirm();
+    }
+
+    // -- via device gallery --
+    async createTemplateImageGallery ({content}) {
+        await this.navTemplateCard();
+        console.log("> opening template creation screen....");
+        await this.waitAndClick(this.selectors.createTemplate);
+        await this.templateTitle("テンプレート作成");
+        await this.fillTemplateImgText({
+            description: content,
+            uploadAction: this.cameraHelper.uploadFromGallery.bind(this.cameraHelper)
+        });
+        await this.saveAndConfirm();
+        
+    }
+    // -- edit function --
+    async editTemplate ({content, uploadAction}) {
+        await this.navTemplateCard();
+        const item = await this.waitAndFind$$(this.selectors.templateItem, 3000);
+        console.log("> opening template editing screen....");
+        await item[1].click();
+        await this.templateTitle("テンプレート編集");
+        await this.fillTemplateImgText ({
+            description: content, 
+            uploadAction: this.cameraHelper.captureImage.bind(this.cameraHelper),
+        });
+        await this.saveAndConfirm();
+    }
+
 }
