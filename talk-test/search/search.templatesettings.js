@@ -17,21 +17,21 @@ describe ("⚡️ Template Settings", async function () {
     //         content: templateContent,
     //     });
     // });
-    // it ("Template with text and image via device gallery", async function () {
-    //     const templateContent = FakeData.randomSentence();
-    //     await templateSettings.createTemplateImageGallery({
-    //         content: templateContent,
-    //     });
-    // });
-    // it ("Template Deletion", async function () {
-    //     await templateSettings.deleteTemplate();
-    // });
-    it ("Template Editing", async function () {
+    it ("Template with text and image via device gallery", async function () {
         const templateContent = FakeData.randomSentence();
-        await templateSettings.editTemplate({
+        await templateSettings.createTemplateImageGallery({
             content: templateContent,
         });
     });
+    // it ("Template Deletion", async function () {
+    //     await templateSettings.deleteTemplate();
+    // });
+    // it ("Template Editing", async function () {
+    //     const templateContent = FakeData.randomSentence();
+    //     await templateSettings.editTemplate({
+    //         content: templateContent,
+    //     });
+    // });
   
     
 })

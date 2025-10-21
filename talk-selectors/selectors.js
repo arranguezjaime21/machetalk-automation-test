@@ -50,13 +50,13 @@ export const TemplateSelectors = {
 
      // -- gallery --
      btnGallery: 'id=com.fdc_machetalk_broadcaster:id/tv_gallery',
-     deviceFile: 'id=com.google.android.apps.photos:id/image',
+     //>>>> custom locator <<<<<
+     deviceFile: '//*[@resource-id="com.google.android.apps.photos:id/title" and @text="Download"]',
      deviceGallery: 'id=com.google.android.apps.photos:id/recycler_view',
-     galleryItems: '//android.support.v7.widget.RecyclerView/android.view.ViewGroup',
+     galleryItems: '//android.support.v7.widget.RecyclerView/android.widget.ImageView',
 
 
-
-
+     
     // -- close/ cancel button -- 
     closedTemplate: 'id=com.fdc_machetalk_broadcaster:id/close_button',
     cancelBtn: 'id=com.fdc_machetalk_broadcaster:id/tv_cancel',
@@ -70,8 +70,10 @@ export const TemplateSelectors = {
     templateItem: 'id=com.fdc_machetalk_broadcaster:id/template_item',
 
     // -- library permission --
-    libraryDialog: "id=com.android.permissioncontroller:id/grant_dialog",
+    libraryDialog: "id=com.android.permissioncontroller:id/grant_singleton",
     allowLibrary: "id=com.android.permissioncontroller:id/permission_allow_all_button",
+//com.android.permissioncontroller:id/grant_singleton
+//
 
 };
 
