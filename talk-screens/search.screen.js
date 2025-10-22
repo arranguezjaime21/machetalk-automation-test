@@ -93,7 +93,12 @@ export class TemplateSettings extends BasePage{
         super(driver);
         this.driver = driver;
         this.selectors = TemplateSelectors;
-        this.cameraHelper = new CameraHelper(this.driver, this.waitAndClick.bind(this), this.waitAndFind.bind(this), this.waitAndFind$$.bind(this));
+        this.cameraHelper = new CameraHelper(
+            this.driver, 
+            this.waitAndClick.bind(this), 
+            this.waitAndFind.bind(this), 
+            this.waitAndFind$$.bind(this),
+        );
         this.callSettings = new CallSettings(driver);
     }
 
@@ -182,6 +187,7 @@ export class TemplateSettings extends BasePage{
             uploadAction: this.cameraHelper.captureImage.bind(this.cameraHelper),
         });
         await this.saveAndConfirm();
+        await this.closeTemplate();
     }
 
     // -- via device gallery --
@@ -192,7 +198,7 @@ export class TemplateSettings extends BasePage{
         await this.templateTitle("テンプレート作成");
         await this.fillTemplateImgText({
             description: content,
-            uploadAction: this.cameraHelper.uploadFromGallery.bind(this.cameraHelper)
+            uploadAction: this.cameraHelper.uploadFromGallery.bind(this.cameraHelper),
         });
         await this.saveAndConfirm();
         

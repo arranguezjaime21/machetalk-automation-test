@@ -27,7 +27,6 @@ describe ("⚡️ Template Creation in search page", function () {
             await templateSettings.createImageAndTextTemplate({
                 content: templateDescription,
             });
-            await templateSettings.closeTemplate();
             // --- Logout ---
             await logout.userLogout();
         });

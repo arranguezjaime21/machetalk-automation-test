@@ -5,22 +5,9 @@ export class CameraHelper {
         this.waitAndFind$$ = waitAndFind$$;
         this.waitAndFind = waitAndFind;
     }
-
-
-    // async galleryPermission () {
-    //     const permission = await this.elementExists(this.selectors.libraryDialog, 3000);
-    //     if (!permission) {
-    //         console.log("permission for device library is already allowed");
-    //     } else {
-    //         await this.waitAndClick(this.selectors.allowLibrary);
-    //     } 
-    //     return
-    // }
-
-
     async captureImage(selectors) {
         const steps = [
-            selectors.btnID,
+            selectors.btnIDCam,
             selectors.btnCamera,
             selectors.btnCapture,
             selectors.btnConfirm,
@@ -34,7 +21,7 @@ export class CameraHelper {
         console.log("Image captured and uploaded successfully");
     }
     async uploadFromGallery (selectors) {
-        await this.waitAndClick(selectors.btnID);
+        await this.waitAndClick(selectors.btnIDCam);
         await this.waitAndClick(selectors.btnGallery);
         
         const permissionDialog = await this.waitAndFind(selectors.libraryDialog, 3000);
@@ -42,7 +29,7 @@ export class CameraHelper {
         console.log("Permission dialog detected — granting access...");
         await this.waitAndClick(selectors.allowLibrary);
         await this.driver.pause(1000);
-        await this.waitAndClick(selectors.btnID);
+        await this.waitAndClick(selectors.btnIDCam);
         await this.waitAndClick(selectors.btnGallery);
         } else {
         console.log("Permission for device library already granted");

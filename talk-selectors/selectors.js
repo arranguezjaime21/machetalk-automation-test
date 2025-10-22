@@ -40,9 +40,11 @@ export const TemplateSelectors = {
     confirmBtn: 'id=com.fdc_machetalk_broadcaster:id/confirmButton',
 
     //camera icon
-    btnID: 'id=com.fdc_machetalk_broadcaster:id/rl_template_image',
+    btnIDCam: 'id=com.fdc_machetalk_broadcaster:id/rl_template_image',
+    // -- video icon --
+    btnIDVideo: "id=com.fdc_machetalk_broadcaster:id/rl_template_video",
 
-    // -- camera capture --
+    // -- capture --
     btnCamera: 'id=com.fdc_machetalk_broadcaster:id/tv_camera',
     btnCapture: 'id=com.android.camera2:id/shutter_button',
     btnConfirm: 'id=com.android.camera2:id/done_button',
@@ -72,8 +74,8 @@ export const TemplateSelectors = {
     // -- library permission --
     libraryDialog: "id=com.android.permissioncontroller:id/grant_singleton",
     allowLibrary: "id=com.android.permissioncontroller:id/permission_allow_all_button",
-//com.android.permissioncontroller:id/grant_singleton
-//
+
+   
 
 };
 
@@ -88,4 +90,12 @@ export const MyPageSelectors = {
     logoutModal: 'id=com.fdc_machetalk_broadcaster:id/rl_message',
     logoutConfirm: 'id=com.fdc_machetalk_broadcaster:id/rl_dialog_confirm',
 
+    // -- Acquired Stars -- 
+    mypageStar: "id=com.fdc_machetalk_broadcaster:id/rl_stars",
+    ownStars: "id=com.fdc_machetalk_broadcaster:id/tvStar",
+    webView: "id=com.fdc_machetalk_broadcaster:id/webview",
+    closeWebView: "id=com.fdc_machetalk_broadcaster:id/btnClose",
+
+    // -- Template Settings -- 
+    titleTemplateWording: "id=com.fdc_machetalk_broadcaster:id/actionBarTitle",
 }
