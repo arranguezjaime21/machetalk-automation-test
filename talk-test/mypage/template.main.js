@@ -1,11 +1,19 @@
 import { FakeData } from "../../helpers/faker.helper.js";
 
-describe ("Mypage Template Settings", function () {
+describe ("⚡️ Mypage Template Settings", function () {
   this.timeout(90000);
-  it ("Template Settings in Mypage", async function () {
+  it ("Create template with image upload via camera roll", async function () {
     const desc = FakeData.randomSentence();  
-    await myPageTemplate.createTextTemplate({
+    await myPageTemplate.createTextCaptureTemplate({
         content: desc,
       });
   });
+
+  // it("Create Template with image upload via device gallery", async function () {
+  //   const desc = FakeData.randomSentence();
+  //   await myPageTemplate.creatTextGalleryTemplate({
+  //     content: desc,
+  //   });
+  // });
+  
 })
