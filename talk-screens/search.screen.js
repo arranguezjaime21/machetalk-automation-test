@@ -145,41 +145,41 @@ export class TemplateSettings extends BasePage{
     }
 
     async saveAndConfirm () {
+        console.log("saving template....");
         await this.waitAndClick(this.selectors.saveTemplate);
 
         const success = await this.elementExists(this.selectors.successModal, 10000);
         if (!success) throw new Error ("Unexpected error occurs or modal is not displayed!");
         console.log("modal for template creation is displayed");
-        console.log("> saving template....")
         await this.waitAndClick(this.selectors.confirmBtn);
     }
 
     async fillTemplateImgText ({ description, uploadAction }) {
-        console.log("> filling in template form...");
+        console.log("input random template description....");
         await this.setValue(this.selectors.templateDescription, description);
         console.log("description entered");
         console.log("uploading image...");
         await uploadAction(this.selectors);
         await this.elementExists(this.selectors.iconThumbImage, 3000);
-        console.log("> image upload confirmed");
+        console.log("image thumbnail is displayed...");
     }
 
     // -- Text Only --
     async createTextTemplate ({content}) {
         await this.navTemplateCard();
-        console.log("> opening template creation screen....");
+        console.log("opening template creation screen....");
         await this.waitAndClick(this.selectors.createTemplate);
         await this.templateTitle("テンプレート作成");
-        console.log("> input random template description....");
+        console.log("input random template description....");
         await this.setValue(this.selectors.templateDescription, content);
-        console.log("Successfully inputted description");
+        console.log("successfully inputted description...");
         await this.saveAndConfirm();
     }
 
     // -- via camera roll --
     async createImageAndTextTemplate ({content}) {
         await this.navTemplateCard();
-        console.log("> opening template creation screen....");
+        console.log("opening template creation screen....");
         await this.waitAndClick(this.selectors.createTemplate);
         await this.templateTitle("テンプレート作成");
         await this.fillTemplateImgText ({
@@ -193,7 +193,7 @@ export class TemplateSettings extends BasePage{
     // -- via device gallery --
     async createTemplateImageGallery ({content}) {
         await this.navTemplateCard();
-        console.log("> opening template creation screen....");
+        console.log("opening template creation screen....");
         await this.waitAndClick(this.selectors.createTemplate);
         await this.templateTitle("テンプレート作成");
         await this.fillTemplateImgText({
@@ -207,7 +207,7 @@ export class TemplateSettings extends BasePage{
     async editTemplate ({content, uploadAction}) {
         await this.navTemplateCard();
         const item = await this.waitAndFind$$(this.selectors.templateItem, 3000);
-        console.log("> opening template editing screen....");
+        console.log("opening template editing screen....");
         await item[1].click();
         await this.templateTitle("テンプレート編集");
         await this.fillTemplateImgText ({

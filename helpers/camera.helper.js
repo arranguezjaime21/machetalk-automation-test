@@ -18,7 +18,7 @@ export class CameraHelper {
             await this.waitAndClick(step);
         }
 
-        console.log("Successfully captured image template");
+        console.log("image captured and uploaded successfully");
     }
     async uploadFromGallery (selectors) {
         await this.waitAndClick(selectors.btnIDCam);
@@ -41,6 +41,6 @@ export class CameraHelper {
         await picture[2].click();
 
         await this.waitAndClick(selectors.btnUpload);
-        console.log("Successfully upload image template");
+        console.log("Image successfully uploaded");
     }
 }

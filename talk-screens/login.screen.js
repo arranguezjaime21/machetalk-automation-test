@@ -26,7 +26,7 @@ export class LoginScreen extends BasePage {
         console.log("Inputting username and password...");
         await this.setValue(this.selectors.inputEmail, email);
         await this.setValue(this.selectors.inputPassword, password);
-        console.log("Click on login button...");
+        console.log("Clicking on login button...");
         await this.waitAndClick(this.selectors.submitBtn);
     }
     // --- Error Handling ---

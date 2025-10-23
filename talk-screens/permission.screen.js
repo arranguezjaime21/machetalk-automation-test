@@ -29,14 +29,14 @@ export class PermissionModal extends BasePage {
              await btn.click();
              const allowBtn = await this.driver.$(`id=${btnAllow}`);
              if (await allowBtn.isDisplayed().catch(() => false)) {
-                console.log(`🛠️ ${name} permission is displayed `);
+                console.log(`🛠️ allowing ${name} permission... `);
                 await allowBtn.click();
              }
         }
          // --- Allow Notification Permission ---
         const allowNotification = await this.waitAndFind(this.selectors.allowNotif, 3000);
         if (await allowNotification.isDisplayed().catch(() => false)) {
-            console.log("🛠️ Notification permission is displayed");
+            console.log("🛠️ allowing notification permission...");
             await allowNotification.click();
         } else {
             console.log("✔️  Notification already allowed!");
