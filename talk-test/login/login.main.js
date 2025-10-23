@@ -13,30 +13,20 @@ describe("⚡️ Login", function () {
       password: "admin",
     });
 
-    const message = await loginScreen.errMessage();
-    console.log("⚠️ error message shown:", message);
-
-    if (message !== "•メールアドレスまたは、パスワードに誤りがあります。") {
-      throw new Error(`⚠️ unexpected error message: ${message}`);
-    }
+    await loginScreen.errMessage("•メールアドレスまたは、パスワードに誤りがあります。");
   });
 
   user.forEach((user) => {
   it("Login Successfully", async function () {
+    await loginScreen.gotoMailLogin();
     await loginScreen.loginMailFlow({
       email: user.email,
       password: user.password,
     });
     await driver.pause(3000);
-
     await handleSavePass(driver);
-      
-    const permissionDialog = await driver.$('id=com.fdc_machetalk_broadcaster:id/ll_permission_dialog');
-    const permissionShow = await permissionDialog.isDisplayed().catch(() => false);
-      if (!permissionShow) {
-           throw new Error("⚠️ login fail - permission is not visible");
-        }
-        console.log("🛠️ permission dialog is visible - user successfully login");
+    await loginScreen.permissionisVisible();
+
   });
   });
 });

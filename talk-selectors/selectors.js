@@ -7,6 +7,8 @@ export const LoginScreenSelectors = {
     inputPassword: 'id=com.fdc_machetalk_broadcaster:id/txtPassword',
     getErrMsg: 'id=com.fdc_machetalk_broadcaster:id/tvErrorMsg',
     submitBtnStats: 'id=com.fdc_machetalk_broadcaster:id/btnLogin',
+    permissionDialog: 'id=com.fdc_machetalk_broadcaster:id/ll_permission_dialog',
+
 };
 
 export const SearchScreenSelectors = {

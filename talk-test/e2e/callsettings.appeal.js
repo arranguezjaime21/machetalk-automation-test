@@ -16,8 +16,7 @@ describe("⚡️ E2E Call Settings and Update Call Appeal", function () {
     // --- Save Password ---
     await handleSavePass(driver);
     // --- Permission ---
-    await
-     permissionModal.allowPermission();
+    await permissionModal.allowPermission();
     // --- Call Settings ---
     await callSettings.navSearchPage()
     await callSettings.callSettingsIcon();
