@@ -36,12 +36,12 @@ export class BasePage {
         }
     }
     async elementExists(selector, timeout = 3000) {
-    try {
-        const element = await this.waitAndFind(selector, timeout);
-        return element ? await element.isDisplayed().catch(() => false) : false;
-    } catch {
-        return false;
-        }
+        try {
+            const element = await this.waitAndFind(selector, timeout);
+            return element ? await element.isDisplayed().catch(() => false) : false;
+        } catch {
+            return false;
+            }
     }
 
     async waitAndGetText (selector, timeout = 3000) {

@@ -121,14 +121,26 @@ export class MyPageTemplate extends BasePage {
     }
 
     async saveAndConfirm () {
-        await this.waitAndClick(this.selectors.saveTemplate);
-
-        const modal = await this.elementExists(this.selectors.successModal, 5000);
-        if (!modal) throw new Error ("Unexpected error or modal is not displayed");
         console.log("Saving template....")
-        console.log("Success modal is displayed")
-        await this.waitAndClick(this.selectors.confirmBtn);
-
+        await this.waitAndClick(this.selectors.saveTemplate);
+        try {
+            const modal = await this.elementExists(this.selectors.successModal, 5000);
+            if (!modal) {
+                console.log("success modal is not displayed after saving template");
+                return false;
+            } else {
+                console.log("Success modal is displayed")
+                await this.waitAndClick(this.selectors.confirmBtn);
+                return true;
+            }
+        } catch (error) {
+            console.log(`Unable to find modal or does not exist after saving template, - ${error.message || error}`);
+            return false;
+        }
+        // const modal = await this.elementExists(this.selectors.successModal, 5000);
+        // if (!modal) throw new Error ("Unexpected error or modal is not displayed");
+        // console.log("Success modal is displayed")
+        // await this.waitAndClick(this.selectors.confirmBtn);
     }
 
     async fillTemplate ({ description, uploadImage}){
