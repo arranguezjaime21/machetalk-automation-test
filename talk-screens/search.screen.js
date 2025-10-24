@@ -107,7 +107,7 @@ export class TemplateSettings extends BasePage{
             await this.callSettings.navSearchPage();
             await this.waitAndClick(this.selectors.templateIcon, 5000);
         } catch {
-            console.log("search page is not visible");
+            return;
         }
     }
 
@@ -132,16 +132,18 @@ export class TemplateSettings extends BasePage{
         if (title !== expectedText) {
             throw new Error (`unexpected error occurs!! "${expectedText}" show: "${title}"`); 
         } else {
-            console.log(`${title} is displayed`);
+            console.log(`deletion modal is displayed, wording: "${title}"`);
         }
     }
     async deleteTemplate () {
         await this.navTemplateCard();
         const template = await this.waitAndFind$$(this.selectors.deleteTemplate, 3000);
         if (template.lenght === 0) throw new Error ("No templates found to delete");
+        console.log("deleting template...")
         await template[0].click();
         await this.deletionModal("テンプレートを削除");
         await this.waitAndClick(this.selectors.confirmDeletion);
+        console.log("secessfully deleted template...")
     }
 
     async saveAndConfirm () {

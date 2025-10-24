@@ -14,7 +14,7 @@ export class LoginScreen extends BasePage {
             await this.waitAndClick(this.selectors.maillSNS);
             await this.waitAndClick(this.selectors.loginMailBtn);
         } catch {
-            return null;
+            return;
         }
     }
     // --- Login Button ---
@@ -32,17 +32,15 @@ export class LoginScreen extends BasePage {
     // --- Error Handling ---
     async errMessage (expectedError) {
         try {
-            const msg = await this.waitAndGetText(this.selectors.getErrMsg, 10000);
-            if (msg !== expectedError) {
-                console.log(`Incorrect wording is displayed: ${msg}`);
-                return false;
+            const msg = await this.waitAndGetText(this.selectors.getErrMsg, 3000);
+
+            if (msg === expectedError) {
+                console.log(`login fail and error wording is displayed: "${expectedError}"`);
             } else {
-                console.log(`login failed and error wording is displayed: ${msg}`);
-                return true;
+                console.log(`login fail and incorrect wording is displayed: "${msg}"`);
             }
         } catch (error) {
-            console.log(`Unexpected error or wording is not exist -- "${error.message || error}"`);
-            return false;
+            throw new Error(`Unexpected error or wording not found-- "${error.message || error}"`);
         }
     }
     // --- to check if user successfully login ----

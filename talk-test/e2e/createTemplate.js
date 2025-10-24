@@ -21,6 +21,10 @@ describe ("⚡️ Template Creation in search page", function () {
             // --- Allow Permission ---
             await permissionModal.allowPermission();
 
+            // --- Template Deletion ---
+            await templateSettings.navTemplateCard();
+            await templateSettings.deleteTemplate();
+
             // --- Template Creation ---
             await templateSettings.navTemplateCard();
             const templateDescription = FakeData.randomSentence();
