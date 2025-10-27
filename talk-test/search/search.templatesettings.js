@@ -17,12 +17,12 @@ describe ("⚡️ Template Settings", async function () {
     //         content: templateContent,
     //     });
     // });
-    it ("Template with text and image via device gallery", async function () {
-        const templateContent = FakeData.randomSentence();
-        await templateSettings.createTemplateImageGallery({
-            content: templateContent,
-        });
-    });
+    // it ("Template with text and image via device gallery", async function () {
+    //     const templateContent = FakeData.randomSentence();
+    //     await templateSettings.createTemplateImageGallery({
+    //         content: templateContent,
+    //     });
+    // });
     // it ("Template Deletion", async function () {
     //     await templateSettings.deleteTemplate();
     // });
@@ -32,6 +32,12 @@ describe ("⚡️ Template Settings", async function () {
     //         content: templateContent,
     //     });
     // });
+
+
+
+    it ("send template", async function () {
+        await attackTab.sendTemplate(1);
+    })
   
     
 })

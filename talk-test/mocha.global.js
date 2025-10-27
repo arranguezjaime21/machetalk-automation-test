@@ -2,7 +2,7 @@ import { remote } from "webdriverio";
 import { emulatorCaps } from "../helpers/capabilities.js";
 import { PermissionModal } from "../talk-screens/permission.screen.js";
 import { LoginScreen } from "../talk-screens/login.screen.js";
-import { CallAppeal, CallSettings, TemplateSettings } from "../talk-screens/search.screen.js";
+import { AttackTab, CallAppeal, CallSettings, TemplateSettings } from "../talk-screens/search.screen.js";
 import { Logout, MyPage, MyPageTemplate, Stars } from "../talk-screens/mypage.screen.js";
 
 
@@ -29,6 +29,7 @@ async beforeAll() {
     global.stars = new Stars(global.driver);
     global.templateSettings = new TemplateSettings(global.driver);
     global.myPageTemplate = new MyPageTemplate(global.driver);
+    global.attackTab = new AttackTab(global.driver);
 },
 
 async afterAll() {

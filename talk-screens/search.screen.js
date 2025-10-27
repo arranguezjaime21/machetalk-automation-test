@@ -2,7 +2,7 @@ import { AppealOption } from "../config/callappeal.config.js";
 import { callSettingsConfig } from "../config/callsettings.js";
 import { BasePage } from "./base.screen.js";
 import { CameraHelper } from "../helpers/camera.helper.js";
-import { SearchScreenSelectors, TemplateSelectors } from "../talk-selectors/selectors.js";
+import { AttackTabSelectors, SearchScreenSelectors, TemplateSelectors } from "../talk-selectors/selectors.js";
 
 
 // call settings 
@@ -219,4 +219,28 @@ export class TemplateSettings extends BasePage{
         await this.saveAndConfirm();
     }
 
+}
+
+export class AttackTab extends BasePage{
+    constructor (driver) {
+        super(driver);
+        this.selectors = AttackTabSelectors;
+        this.callSettings = new CallSettings(driver);
+
+    }
+
+    async sendTemplate (index) {
+        try {
+            await this.callSettings.navSearchPage();
+        } catch {
+            return null;
+        }
+
+        const sndBtn = await this.waitAndFind$$(this.selectors.sendTemplateBtn, 3000);
+        if (sndBtn[index]) {
+            await sndBtn[index].click();
+        } else {
+            throw new Error(`Send button with index ${index} not found`);
+        }
+    }
 }

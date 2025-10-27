@@ -77,8 +77,6 @@ export const TemplateSelectors = {
     libraryDialog: "id=com.android.permissioncontroller:id/grant_singleton",
     allowLibrary: "id=com.android.permissioncontroller:id/permission_allow_all_button",
 
-   
-
 };
 
 export const MyPageSelectors = {
@@ -100,4 +98,11 @@ export const MyPageSelectors = {
 
     // -- Template Settings -- 
     titleTemplateWording: "id=com.fdc_machetalk_broadcaster:id/actionBarTitle",
+}
+
+export const AttackTabSelectors = {
+    sendTemplateBtn: 'id=com.fdc_machetalk_broadcaster:id/linear_layout_template',
+    enableTemplateError: 'id=com.fdc_machetalk_broadcaster:id/error_content',
+    closedImg: 'id=com.fdc_machetalk_broadcaster:id/image_button_close',
+    setTemplate: 'id=com.fdc_machetalk_broadcaster:id/btn_template_setting',
 }

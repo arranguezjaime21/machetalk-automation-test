@@ -1,4 +1,4 @@
-import { CallAppeal, CallSettings, TemplateSettings } from "talk-screens/search.screen.js";
+import { AttackTab, CallAppeal, CallSettings, TemplateSettings } from "talk-screens/search.screen.js";
 import { LoginScreen } from "../talk-screens/login.screen.js";
 import { PermissionModal } from "../talk-screens/permission.screen.js";
 import { Logout, MyPage, MyPageTemplate, Stars } from "talk-screens/mypage.screen.js";
@@ -14,6 +14,7 @@ declare global {
   var driver: WebdriverIO.Browser; 
   var templateSettings: TemplateSettings;
   var myPageTemplate: MyPageTemplate;
+  var attackTab: AttackTab;
 }
 
 export {};
