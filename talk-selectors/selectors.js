@@ -101,8 +101,16 @@ export const MyPageSelectors = {
 }
 
 export const AttackTabSelectors = {
+    userList: 'id=com.fdc_machetalk_broadcaster:id/listItemHolder',
     sendTemplateBtn: 'id=com.fdc_machetalk_broadcaster:id/linear_layout_template',
-    enableTemplateError: 'id=com.fdc_machetalk_broadcaster:id/error_content',
+    userNickName: 'id=com.fdc_machetalk_broadcaster:id/nickName',
+    templateOFF: 'id=com.fdc_machetalk_broadcaster:id/error_content',
     closedImg: 'id=com.fdc_machetalk_broadcaster:id/image_button_close',
+    tempList: 'id=com.fdc_machetalk_broadcaster:id/rv_template',
     setTemplate: 'id=com.fdc_machetalk_broadcaster:id/btn_template_setting',
+}
+
+export const MessagePageSelectors = {
+    navMessage: '(//android.widget.ImageView[@resource-id="com.fdc_machetalk_broadcaster:id/icon"])[2]',
+
 }

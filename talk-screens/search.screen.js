@@ -69,13 +69,20 @@ export class CallAppeal extends BasePage {
             await callSettings.setCallSettings("enableAudioVideo");
         } 
 
-        const toast = await this.waitAndFind(this.selectors.toastMessage, 2000);
-        if (toast) {
-            const toastText = await toast.getAttribute("text").catch(() => "(no toast text)" );
-            console.log(`Appeal "${name}" set successfully — Toast: ${toastText}`)
-        } else {
-            console.warn("⚠️ Toast message not visible or disappeared too quickly.");
+        
+        try {
+            const toast = await this.waitAndFind(this.selectors.toastMessage, 2000);
+            if (toast) {
+                const toastText = await toast.getText();
+                console.log(`Appeal "${name}" set successfully — Toast: ${toastText}`)
+            } else {
+                console.warn("⚠️ Toast message not visible or disappeared too quickly.");
+            }
+            
+        } catch (err) {
+            console.log(`unexpected error occured: ${err.message}`);
         }
+
     }
 
     async setAppeal (settingIndex) {
@@ -224,23 +231,64 @@ export class TemplateSettings extends BasePage{
 export class AttackTab extends BasePage{
     constructor (driver) {
         super(driver);
-        this.selectors = AttackTabSelectors;
+        this.selectors = {
+            ...TemplateSelectors,
+            ...AttackTabSelectors,
+        };
+
         this.callSettings = new CallSettings(driver);
 
     }
 
-    async sendTemplate (index) {
-        try {
-            await this.callSettings.navSearchPage();
-        } catch {
-            return null;
+    async sendTemplate () {
+        await this.callSettings.navSearchPage();
+        await this.userList(8);
+        const templateSetisVisible = await this.elementExists(this.selectors.templateOFF, 3000);
+        if (templateSetisVisible) {
+            console.log("User has no active template. Template Preview displayed.");
+            await this.enableTemplate(1);
+        } else {
+            console.log("user successfully sent template.");
+        }
+        
+    }
+
+    async enableTemplate (index) {
+        await this.waitAndClick(this.selectors.closedImg);
+        const templateList = await this.waitAndFind$$(this.selectors.tempList, 3000);
+        if (!templateList) {
+            throw new Error(`unable to find ${templateList} or user dont have template`);
+        } else {
+            const enable = await this.waitAndFind$$(this.selectors.setTemplate);
+            if (!enable[index]) {
+                throw new Error(`unable to find ${templateList} or user dont have template`);
+            } 
+            console.log("enabling user template...")
+            await enable[index].click();
+            await this.driver.pause(3000);
+            await this.waitAndClick(this.selectors.closedTemplate);
+            await this.userList(8);
+        }
+    }
+
+    async userList(index) {
+        //get target user nickname
+        const userList = await this.waitAndFind$$(this.selectors.userList, 3000);
+        if (!userList[index]) {
+            throw new Error(`User at index ${index} not found`);
         }
 
+        const userEl = await userList[index].$(this.selectors.userNickName, 3000);
+        const userNn = await userEl.getText();
+
+        console.log(`Sending template for user: "${userNn}"`);
+
+        // send template for target user
         const sndBtn = await this.waitAndFind$$(this.selectors.sendTemplateBtn, 3000);
-        if (sndBtn[index]) {
-            await sndBtn[index].click();
-        } else {
-            throw new Error(`Send button with index ${index} not found`);
+        if (!sndBtn[index]) {
+            throw new Error(`Send button for index ${index} not found`);
         }
+        await sndBtn[index].click();
+
     }
 }

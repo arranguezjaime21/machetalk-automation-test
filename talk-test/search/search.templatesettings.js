@@ -36,7 +36,7 @@ describe ("⚡️ Template Settings", async function () {
 
 
     it ("send template", async function () {
-        await attackTab.sendTemplate(1);
+        await attackTab.sendTemplate();
     })
   
     
