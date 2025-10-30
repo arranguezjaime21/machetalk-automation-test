@@ -1,4 +1,4 @@
-import { MyPageSelectors, TemplateSelectors } from "../talk-selectors/selectors.js"
+import { MyPageSelectors, NotificationSettingsSelectors, TemplateSelectors } from "../talk-selectors/selectors.js"
 import { BasePage } from "./base.screen.js";
 import { TemplateSettings } from "../talk-screens/search.screen.js";
 import { CameraHelper } from "../helpers/camera.helper.js";
@@ -24,6 +24,10 @@ export class MyPage extends BasePage {
 
     async starsOwned () {
         await this.waitAndClick(this.selectors.mypageStar);
+    }
+
+    async notificationSettings () {
+        await this.waitAndClick(this.selectors.myPageNotificationSettings);
     }
 }
 
@@ -227,5 +231,42 @@ export class MyPageTemplate extends BasePage {
         await this.waitAndClick(this.selectors.confirmDeletion);
         console.log("secessfully deleted template...")
 
+    }
+}
+
+export class NotificationSettings extends BasePage {
+    constructor (driver) {
+        super(driver);
+        this.selectors = {
+            ...MyPageSelectors,
+            ...NotificationSettingsSelectors,
+        }
+        this.myPage = new MyPage(driver);
+    }
+
+    async MypageNotifSettings () {
+        await this.myPage.notificationSettings();
+
+        const vibrateSettings = await this.isButtonEnable(this.selectors.vibrateToggle);
+        const soundSettings = await this.isButtonEnable(this.selectors.soundToggle);
+
+        try {
+            if (!vibrateSettings || !soundSettings) {
+                console.log("settings are off, enabling settings");
+
+                if (!vibrateSettings) {
+                    await this.waitAndClick(this.selectors.vibrateToggle);
+                }
+                if (!soundSettings) {
+                    await this.waitAndClick (this.selectors.soundToggle);
+                }
+                
+            } else {
+                console.log("buttons already enabled");
+            }
+        } catch (error) {
+            console.log(`unexpected error or button not found: "${error.message}"`);
+        }
+        await driver.pause(3000);
     }
 }

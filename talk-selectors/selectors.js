@@ -84,6 +84,7 @@ export const MyPageSelectors = {
     myPageNav: '(//android.widget.ImageView[@resource-id="com.fdc_machetalk_broadcaster:id/icon"])[5]',
     myPageSettings: 'android=new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().resourceId("com.fdc_machetalk_broadcaster:id/rl_settings"))',
     myPageTemplateSettings: 'id=com.fdc_machetalk_broadcaster:id/linear_layout_template_settings',
+    myPageNotificationSettings: 'id=com.fdc_machetalk_broadcaster:id/linear_layout_notification_settings',
 
     // -- Logout --
     logoutBtn: '//androidx.recyclerview.widget.RecyclerView[@resource-id="com.fdc_machetalk_broadcaster:id/rv_settings_menu"]/android.widget.RelativeLayout[9]',
@@ -116,5 +117,13 @@ export const AttackTabSelectors = {
 
 export const MessagePageSelectors = {
     navMessage: '(//android.widget.ImageView[@resource-id="com.fdc_machetalk_broadcaster:id/icon"])[2]',
+
+}
+
+export const NotificationSettingsSelectors = {
+    vibrateToggle: 'id=com.fdc_machetalk_broadcaster:id/cb_viber_setting',
+    soundToggle: 'id=com.fdc_machetalk_broadcaster:id/cb_sound_setting',
+    notificationsToggle: 'id=com.fdc_machetalk_broadcaster:id/cb_inn_app_general',
+    
 
 }

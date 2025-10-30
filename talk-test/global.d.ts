@@ -1,7 +1,7 @@
 import { AttackTab, CallAppeal, CallSettings, TemplateSettings } from "talk-screens/search.screen.js";
 import { LoginScreen } from "../talk-screens/login.screen.js";
 import { PermissionModal } from "../talk-screens/permission.screen.js";
-import { Logout, MyPage, MyPageTemplate, Stars } from "talk-screens/mypage.screen.js";
+import { Logout, MyPage, MyPageTemplate, NotificationSettings, Stars } from "talk-screens/mypage.screen.js";
 import { MessageScreen } from "../talk-screens/message.screen.js";
 
 declare global {
@@ -17,6 +17,7 @@ declare global {
   var myPageTemplate: MyPageTemplate;
   var attackTab: AttackTab;
   var messageScreen: MessageScreen;
+  var notificationSettings: NotificationSettings;
 }
 
 export {};

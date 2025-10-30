@@ -15,7 +15,9 @@
     "test:e2ecreatetemplate": "npx mocha --require talk-test/mocha.global.reset.js talk-test/e2e/createTemplate.js --timeout 60000",
     "test:mypagestars": "npx mocha --require talk-test/mocha.global.js talk-test/mypage/stars.js --timeout 60000",
     "test:mypagetemplate": "npx mocha --require talk-test/mocha.global.js talk-test/mypage/template.main.js --timeout 60000 ",
-    "test:message": "npx mocha --require talk-test/mocha.global.js talk-test/message/message.main.js --timeout 60000"
+    "test:message": "npx mocha --require talk-test/mocha.global.js talk-test/message/message.main.js --timeout 60000",
+    "test:notificationsettings": "npx mocha --require talk-test/mocha.global.js talk-test/mypage/notification.settings.js --timeout 60000"
+
   },
   "keywords": [],
   "author": "",
