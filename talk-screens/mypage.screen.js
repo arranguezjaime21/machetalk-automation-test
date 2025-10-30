@@ -191,4 +191,41 @@ export class MyPageTemplate extends BasePage {
         });
         await this.saveAndConfirm();
     }
+
+    async deletionModal (expectedText) {
+        const title = await this.waitAndGetText(this.selectors.deletionModalText);
+        if (title !== expectedText) {
+            throw new Error (`unexpected error occurs!! "${expectedText}" show: "${title}"`); 
+        } else {
+            console.log(`deletion modal is displayed, wording: "${title}"`);
+        }
+    }
+    async deleteTemplate (index) {
+        const template = await this.waitAndFind$$(this.selectors.deleteTemplate, 3000);
+        if (template.length === 0) throw new Error ("No templates found to delete");
+        console.log("deleting template...")
+        await template[index].click();
+        await this.deletionModal("テンプレートを削除");
+        await this.waitAndClick(this.selectors.confirmDeletion);
+        console.log("secessfully deleted template...")
+    }
+
+    async templateList() {
+        return this.waitAndFind$$(this.selectors.deleteTemplate, 3000);
+    }
+
+    async deleteAllTemplate (index = 0) {
+        const templates = await this.templateList();
+        if (templates.length === 0) {
+            console.warn("no templates found to delete");
+            return;
+        }
+        const target = templates[index];
+        await target.click();
+        console.log(`deleting template at index ${index}`);
+
+        await this.waitAndClick(this.selectors.confirmDeletion);
+        console.log("secessfully deleted template...")
+
+    }
 }

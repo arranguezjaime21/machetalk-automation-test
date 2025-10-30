@@ -68,10 +68,10 @@ export const TemplateSelectors = {
     // -- template deletion --
     deleteTemplate: 'id=com.fdc_machetalk_broadcaster:id/btn_delete',
     deletionModalText: 'id=com.fdc_machetalk_broadcaster:id/tv_title', //テンプレートを削除 
-    confirmDeletion: 'id=com.fdc_machetalk_broadcaster:id/tv_confirm',
+    confirmDeletion: 'id=com.fdc_machetalkx_broadcaster:id/tv_confirm',
 
     // -- template item -
-    templateItem: 'id=com.fdc_machetalk_broadcaster:id/template_item',
+    templateItem: '(//android.widget.RelativeLayout[@resource-id="com.fdc_machetalk_broadcaster:id/template_item"])',
 
     // -- library permission --
     libraryDialog: "id=com.android.permissioncontroller:id/grant_singleton",
