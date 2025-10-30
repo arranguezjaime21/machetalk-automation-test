@@ -93,8 +93,12 @@ export const MyPageSelectors = {
     // -- Acquired Stars -- 
     mypageStar: "id=com.fdc_machetalk_broadcaster:id/rl_stars",
     ownStars: "id=com.fdc_machetalk_broadcaster:id/tvStar",
-    webView: "id=com.fdc_machetalk_broadcaster:id/webview",
     closeWebView: "id=com.fdc_machetalk_broadcaster:id/btnClose",
+    //to get the stars amount via webview
+    starwebV: '//android.webkit.WebView//android.view.View[@text and not(@text="")]',
+    //to get element is displaed via webview
+    successDisplay: '//android.webkit.WebView//android.widget.TextView[@text="WEBで検索してね！"]',
+ 
 
     // -- Template Settings -- 
     titleTemplateWording: "id=com.fdc_machetalk_broadcaster:id/actionBarTitle",
