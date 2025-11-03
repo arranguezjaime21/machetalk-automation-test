@@ -3,7 +3,7 @@ import { emulatorCaps } from "../helpers/capabilities.js";
 import { PermissionModal } from "../talk-screens/permission.screen.js";
 import { LoginScreen } from "../talk-screens/login.screen.js";
 import { AttackTab, CallAppeal, CallSettings, TemplateSettings } from "../talk-screens/search.screen.js";
-import { Logout, MyPage, MyPageTemplate, NotificationSettings, Stars } from "../talk-screens/mypage.screen.js";
+import { Logout, MyPage, MyPageTemplate, NotificationSettings, Stars, StreamingBonus } from "../talk-screens/mypage.screen.js";
 import { MessageScreen } from "../talk-screens/message.screen.js";
 
 
@@ -33,6 +33,7 @@ async beforeAll() {
     global.attackTab = new AttackTab(global.driver);
     global.messageScreen = new MessageScreen(global.driver);
     global.notificationSettings = new NotificationSettings(global.driver);
+    global.streamingBonus = new StreamingBonus(global.driver);
 },
 
 async afterAll() {

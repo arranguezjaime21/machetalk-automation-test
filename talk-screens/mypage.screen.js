@@ -29,6 +29,10 @@ export class MyPage extends BasePage {
     async notificationSettings () {
         await this.waitAndClick(this.selectors.myPageNotificationSettings);
     }
+    
+    async streamingBonuses () { 
+        await this.waitAndClick(this.selectors.myPageStremingBonus);
+    }
 }
 
 //logout function
@@ -97,7 +101,7 @@ export class Stars extends BasePage {
         }
    }
 }
-
+// template function -- set template, update and delete 
 export class MyPageTemplate extends BasePage {
     constructor(driver) {
         super(driver);
@@ -233,7 +237,7 @@ export class MyPageTemplate extends BasePage {
 
     }
 }
-
+// notification settings screen - enable settings
 export class NotificationSettings extends BasePage {
     constructor (driver) {
         super(driver);
@@ -249,10 +253,10 @@ export class NotificationSettings extends BasePage {
 
         const vibrateSettings = await this.isButtonEnable(this.selectors.vibrateToggle);
         const soundSettings = await this.isButtonEnable(this.selectors.soundToggle);
-
+        const notifySettings = await this.isButtonEnable(this.selectors.notificationsToggle);
         try {
-            if (!vibrateSettings || !soundSettings) {
-                console.log("settings are off, enabling settings");
+            if (!vibrateSettings || !soundSettings || !notifySettings) {
+                console.log("settings are off, enabling settings...");
 
                 if (!vibrateSettings) {
                     await this.waitAndClick(this.selectors.vibrateToggle);
@@ -260,13 +264,49 @@ export class NotificationSettings extends BasePage {
                 if (!soundSettings) {
                     await this.waitAndClick (this.selectors.soundToggle);
                 }
+                if (!notifySettings) {
+                    this.waitAndClick(this.selectors.notificationsToggle);
+                }
                 
             } else {
-                console.log("buttons already enabled");
+                console.log("settings already enabled");
+                await this.waitAndClick(this.selectors.backBtn);
             }
         } catch (error) {
             console.log(`unexpected error or button not found: "${error.message}"`);
         }
         await driver.pause(3000);
+        await this.waitAndClick(this.selectors.backBtn);
+    }
+}
+// streaming bonuses, check for display of webview 
+export class StreamingBonus extends BasePage {
+    constructor (driver) {
+        super(driver);
+        this.selectors = MyPageSelectors;
+        this.myPage = new MyPage(driver);
+    }
+
+    async streamBonuses () { 
+        try {
+            await this.myPage.navMyPage();
+            await this.myPage.streamingBonuses();
+        } catch {
+            console.log("user already in streaming bonuses screen");
+        }
+
+        const isWebviewDisplay = await this.elementExists(this.selectors.streamingWebview, 3000);
+
+        try {
+            if (isWebviewDisplay) {
+                console.log("streaming bonuses successfully displayed");
+                await driver.pause(3000);
+            } else {
+                console.log("streaming bonuses webview is not displayed");
+            }
+                await this.waitAndClick(this.selectors.closeWebView);            
+        } catch (err) {
+            throw new Error(`unexpected error or webview not found ${err.message}`);
+        }
     }
 }

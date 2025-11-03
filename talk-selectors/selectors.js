@@ -68,7 +68,7 @@ export const TemplateSelectors = {
     // -- template deletion --
     deleteTemplate: 'id=com.fdc_machetalk_broadcaster:id/btn_delete',
     deletionModalText: 'id=com.fdc_machetalk_broadcaster:id/tv_title', //テンプレートを削除 
-    confirmDeletion: 'id=com.fdc_machetalkx_broadcaster:id/tv_confirm',
+    confirmDeletion: 'id=com.fdc_machetalk_broadcaster:id/rl_dialog_confirm',
 
     // -- template item -
     templateItem: '(//android.widget.RelativeLayout[@resource-id="com.fdc_machetalk_broadcaster:id/template_item"])',
@@ -85,6 +85,7 @@ export const MyPageSelectors = {
     myPageSettings: 'android=new UiScrollable(new UiSelector().scrollable(true)).scrollIntoView(new UiSelector().resourceId("com.fdc_machetalk_broadcaster:id/rl_settings"))',
     myPageTemplateSettings: 'id=com.fdc_machetalk_broadcaster:id/linear_layout_template_settings',
     myPageNotificationSettings: 'id=com.fdc_machetalk_broadcaster:id/linear_layout_notification_settings',
+    myPageStremingBonus: 'id=com.fdc_machetalk_broadcaster:id/linear_layout_broadcast_bonus',
 
     // -- Logout --
     logoutBtn: '//androidx.recyclerview.widget.RecyclerView[@resource-id="com.fdc_machetalk_broadcaster:id/rv_settings_menu"]/android.widget.RelativeLayout[9]',
@@ -99,6 +100,9 @@ export const MyPageSelectors = {
     starwebV: '//android.webkit.WebView//android.view.View[@text and not(@text="")]',
     //to get element is displaed via webview
     successDisplay: '//android.webkit.WebView//android.widget.TextView[@text="WEBで検索してね！"]',
+
+    // -- Streaming Bonus Webview -- 
+    streamingWebview: '//android.widget.TextView[@text="ボーナス獲得状況を確認"]',
  
 
     // -- Template Settings -- 
@@ -117,13 +121,12 @@ export const AttackTabSelectors = {
 
 export const MessagePageSelectors = {
     navMessage: '(//android.widget.ImageView[@resource-id="com.fdc_machetalk_broadcaster:id/icon"])[2]',
-
 }
 
 export const NotificationSettingsSelectors = {
     vibrateToggle: 'id=com.fdc_machetalk_broadcaster:id/cb_viber_setting',
     soundToggle: 'id=com.fdc_machetalk_broadcaster:id/cb_sound_setting',
     notificationsToggle: 'id=com.fdc_machetalk_broadcaster:id/cb_inn_app_general',
-    
 
+    backBtn: 'id=com.fdc_machetalk_broadcaster:id/btn_backs',
 }

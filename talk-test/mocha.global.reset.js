@@ -2,7 +2,7 @@ import { remote } from "webdriverio";
 import { emulatorCapsReset } from "../helpers/capabilities.js";
 import { LoginScreen } from "../talk-screens/login.screen.js";
 import { PermissionModal } from "../talk-screens/permission.screen.js";
-import { Logout, MyPage, NotificationSettings } from "../talk-screens/mypage.screen.js";
+import { Logout, MyPage, NotificationSettings, StreamingBonus } from "../talk-screens/mypage.screen.js";
 import { CallAppeal, CallSettings, TemplateSettings } from "../talk-screens/search.screen.js";
 import { MessageScreen } from "../talk-screens/message.screen.js";
 
@@ -28,7 +28,7 @@ async beforeAll() {
     global.templateSettings = new TemplateSettings(global.driver);
     global.messageScreen = new MessageScreen(global.driver);
     global.notificationSettings = new NotificationSettings(global.driver);
-    
+    global.streamingBonus = new StreamingBonus(global.driver);
 },
 
 async afterAll() {
