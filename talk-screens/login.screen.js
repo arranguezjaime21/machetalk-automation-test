@@ -12,7 +12,7 @@ export class LoginScreen extends BasePage {
         try {
             await this.waitAndClick(this.selectors.mailLoginNav);
             await this.waitAndClick(this.selectors.maillSNS);
-            await this.waitAndClick(this.selectors.loginMailBtn);
+            await this.waitAndClick(this.selectors.submitBtn);
         } catch {
             return;
         }
@@ -58,7 +58,7 @@ export class LoginScreen extends BasePage {
     }
     // --- Button State Verification ---
     async verifySubmitBtn () {
-        const button = await this.waitAndFind(this.selectors.submitBtnStats);
+        const button = await this.waitAndFind(this.selectors.submitBtn);
         const isEnabled = await button.getAttribute("enabled");
 
         if (isEnabled === "true") {

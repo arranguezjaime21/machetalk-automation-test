@@ -3,6 +3,7 @@ import { LoginScreen } from "../talk-screens/login.screen.js";
 import { PermissionModal } from "../talk-screens/permission.screen.js";
 import { Logout, MyPage, MyPageTemplate, NotificationSettings, Stars, StreamingBonus } from "talk-screens/mypage.screen.js";
 import { MessageScreen } from "../talk-screens/message.screen.js";
+import { TimelinePage } from "../talk-screens/timeline.screen.js";
 
 declare global {
   var loginScreen: LoginScreen;
@@ -19,6 +20,7 @@ declare global {
   var messageScreen: MessageScreen;
   var notificationSettings: NotificationSettings;
   var streamingBonus: StreamingBonus;
+  var timelinePage: TimelinePage;
 }
 
 export {};

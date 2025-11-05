@@ -1,7 +1,7 @@
 import { AppealOption } from "../config/callappeal.config.js";
 import { callSettingsConfig } from "../config/callsettings.js";
 import { BasePage } from "./base.screen.js";
-import { CameraHelper } from "../helpers/camera.helper.js";
+import { CameraHelper } from "../helpers/camera.template.helper.js";
 import { AttackTabSelectors, SearchScreenSelectors, TemplateSelectors } from "../talk-selectors/selectors.js";
 
 

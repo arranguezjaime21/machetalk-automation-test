@@ -1,7 +1,7 @@
 import { MyPageSelectors, NotificationSettingsSelectors, TemplateSelectors } from "../talk-selectors/selectors.js"
 import { BasePage } from "./base.screen.js";
 import { TemplateSettings } from "../talk-screens/search.screen.js";
-import { CameraHelper } from "../helpers/camera.helper.js";
+import { CameraHelper } from "../helpers/camera.template.helper.js";
 
 
 export class MyPage extends BasePage {

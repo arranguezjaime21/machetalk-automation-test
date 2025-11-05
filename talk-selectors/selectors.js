@@ -1,12 +1,10 @@
 export const LoginScreenSelectors = {
     mailLoginNav: 'id=com.fdc_machetalk_broadcaster:id/tvLogin',
     maillSNS: 'id=com.fdc_machetalk_broadcaster:id/btnOtherMethod',
-    loginMailBtn: 'id=com.fdc_machetalk_broadcaster:id/btnLogin',
     submitBtn: 'id=com.fdc_machetalk_broadcaster:id/btnLogin',
     inputEmail: 'id=com.fdc_machetalk_broadcaster:id/txtEmail',
     inputPassword: 'id=com.fdc_machetalk_broadcaster:id/txtPassword',
     getErrMsg: 'id=com.fdc_machetalk_broadcaster:id/tvErrorMsg',
-    submitBtnStats: 'id=com.fdc_machetalk_broadcaster:id/btnLogin',
     permissionDialog: 'id=com.fdc_machetalk_broadcaster:id/ll_permission_dialog',
 
 };
@@ -130,3 +128,13 @@ export const NotificationSettingsSelectors = {
 
     backBtn: 'id=com.fdc_machetalk_broadcaster:id/btn_backs',
 }
+
+export const TimelinePageSelectors = { 
+    timelineNav: '(//android.widget.ImageView[@resource-id="com.fdc_machetalk_broadcaster:id/icon"])[4]',
+    newPost: 'id=com.fdc_machetalk_broadcaster:id/fl_new_post',
+    postText: 'id=com.fdc_machetalk_broadcaster:id/et_post_text',
+    postCamera: '(//android.widget.FrameLayout[@resource-id="com.fdc_machetalk_broadcaster:id/fl_image_container"])[1]',
+    postGallery: '(//android.widget.FrameLayout[@resource-id="com.fdc_machetalk_broadcaster:id/fl_image_container"])[2]',
+    uploadImagePreview: 'id=com.fdc_machetalk_broadcaster:id/iv_selected_photo',
+    uploadImageCancel: 'id=com.fdc_machetalk_broadcaster:id/iv_selected_photo_dismiss',
+} 
