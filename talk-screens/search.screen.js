@@ -1,7 +1,7 @@
 import { AppealOption } from "../config/callappeal.config.js";
 import { callSettingsConfig } from "../config/callsettings.js";
 import { BasePage } from "./base.screen.js";
-import { CameraHelper } from "../helpers/camera.template.helper.js";
+import { CameraHelper } from "../helpers/camera.helper.js";
 import { AttackTabSelectors, SearchScreenSelectors, TemplateSelectors } from "../talk-selectors/selectors.js";
 
 
@@ -193,7 +193,7 @@ export class TemplateSettings extends BasePage{
         await this.templateTitle("テンプレート作成");
         await this.fillTemplateImgText ({
             description: content,
-            uploadAction: this.cameraHelper.captureImage.bind(this.cameraHelper),
+            uploadAction: this.cameraHelper.templateCameraRoll.bind(this.cameraHelper),
         });
         await this.saveAndConfirm();
         await this.closeTemplate();
@@ -207,7 +207,7 @@ export class TemplateSettings extends BasePage{
         await this.templateTitle("テンプレート作成");
         await this.fillTemplateImgText({
             description: content,
-            uploadAction: this.cameraHelper.uploadFromGallery.bind(this.cameraHelper),
+            uploadAction: this.cameraHelper.tempateGallery.bind(this.cameraHelper),
         });
         await this.saveAndConfirm();
         
@@ -221,7 +221,7 @@ export class TemplateSettings extends BasePage{
         await this.templateTitle("テンプレート編集");
         await this.fillTemplateImgText ({
             description: content, 
-            uploadAction: this.cameraHelper.captureImage.bind(this.cameraHelper),
+            uploadAction: this.cameraHelper.templateCameraRoll.bind(this.cameraHelper),
         });
         await this.saveAndConfirm();
     }

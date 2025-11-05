@@ -137,4 +137,14 @@ export const TimelinePageSelectors = {
     postGallery: '(//android.widget.FrameLayout[@resource-id="com.fdc_machetalk_broadcaster:id/fl_image_container"])[2]',
     uploadImagePreview: 'id=com.fdc_machetalk_broadcaster:id/iv_selected_photo',
     uploadImageCancel: 'id=com.fdc_machetalk_broadcaster:id/iv_selected_photo_dismiss',
+
+    // -- save function -- 
+    saveTemplate: 'id=com.fdc_machetalk_broadcaster:id/rl_confirm',
+    successModal: 'id=com.fdc_machetalk_broadcaster:id/message',
+    confirmBtn: 'id=com.fdc_machetalk_broadcaster:id/confirmButton',
+
+    // -- capture --
+    btnCapture: 'id=com.android.camera2:id/shutter_button',
+    btnConfirm: 'id=com.android.camera2:id/done_button',
+    btnUpload: 'id=com.fdc_machetalk_broadcaster:id/tv_use_photo',
 } 

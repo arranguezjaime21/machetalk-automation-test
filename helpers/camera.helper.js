@@ -5,7 +5,10 @@ export class CameraHelper {
         this.waitAndFind$$ = waitAndFind$$;
         this.waitAndFind = waitAndFind;
     }
-    async captureImage(selectors) {
+
+
+    // --- TEMPLATE HELPERS ---
+    async templateCameraRoll(selectors) {
         const steps = [
             selectors.btnIDCam,
             selectors.btnCamera,
@@ -20,7 +23,7 @@ export class CameraHelper {
 
         console.log("image captured and uploaded successfully");
     }
-    async uploadFromGallery (selectors) {
+    async tempateGallery (selectors) {
         await this.waitAndClick(selectors.btnIDCam);
         await this.waitAndClick(selectors.btnGallery);
         
@@ -42,5 +45,20 @@ export class CameraHelper {
 
         await this.waitAndClick(selectors.btnUpload);
         console.log("Image successfully uploaded");
+    }
+
+
+    // --- TIMELINE HELPERS ----
+    async timelineCameraRoll (selectors) { 
+        const steps = [
+            selectors.postCamera,
+            selectors.btnCapture,
+            selectors.btnConfirm,
+            selectors.btnUpload,
+        ];
+        for (const step of steps) { 
+            await this.waitAndClick(step);
+        }
+        console.log("image captured and uploaded successfully");
     }
 }

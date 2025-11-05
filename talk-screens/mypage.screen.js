@@ -1,7 +1,7 @@
 import { MyPageSelectors, NotificationSettingsSelectors, TemplateSelectors } from "../talk-selectors/selectors.js"
 import { BasePage } from "./base.screen.js";
 import { TemplateSettings } from "../talk-screens/search.screen.js";
-import { CameraHelper } from "../helpers/camera.template.helper.js";
+import { CameraHelper } from "../helpers/camera.helper.js";
 
 
 export class MyPage extends BasePage {
@@ -170,7 +170,7 @@ export class MyPageTemplate extends BasePage {
         // await this.waitAndClick(this.selectors.confirmBtn);
     }
 
-    async fillTemplate ({ description, uploadImage}){
+    async fillTemplate ({ description, uploadAction}){
         console.log("Inputting template description...");
         await this.setValue(this.selectors.templateDescription, description);
         console.log("Successfully inputted template description...");
@@ -185,7 +185,7 @@ export class MyPageTemplate extends BasePage {
         await this.templateTitle("テンプレート作成");
         await this.fillTemplate({
             description: content,
-            uploadImage: this.cameraHelper.captureImage.bind(this.cameraHelper),
+            uploadAction: this.cameraHelper.templateCameraRoll.bind(this.cameraHelper),
         });
         await this.saveAndConfirm();
     }
@@ -195,7 +195,7 @@ export class MyPageTemplate extends BasePage {
         await this.templateTitle("テンプレート作成");
         await this.fillTemplate ({
             description: content,
-            uploadImage: this.cameraHelper.uploadFromGallery.bind(this.cameraHelper),
+            uploadImage: this.cameraHelper.tempateGallery.bind(this.cameraHelper),
         });
         await this.saveAndConfirm();
     }
