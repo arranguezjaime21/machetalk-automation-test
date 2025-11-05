@@ -118,6 +118,7 @@ export class TemplateSettings extends BasePage{
         }
     }
 
+    // -- template screen title --
     async templateTitle (expectedTitle) {
         const title = await this.waitAndGetText(this.selectors.templateTitle);
 
@@ -134,6 +135,7 @@ export class TemplateSettings extends BasePage{
         await this.waitAndClick(this.selectors.closedTemplate);
     }
 
+    // -- template deletion modal --
     async deletionModal (expectedText) {
         const title = await this.waitAndGetText(this.selectors.deletionModalText);
         if (title !== expectedText) {
@@ -142,6 +144,7 @@ export class TemplateSettings extends BasePage{
             console.log(`deletion modal is displayed, wording: "${title}"`);
         }
     }
+    // -- template deletion --
     async deleteTemplate () {
         await this.navTemplateCard();
         const template = await this.waitAndFind$$(this.selectors.deleteTemplate, 3000);
@@ -162,7 +165,7 @@ export class TemplateSettings extends BasePage{
         console.log("modal for template creation is displayed");
         await this.waitAndClick(this.selectors.confirmBtn);
     }
-
+    // -- filling template screen --
     async fillTemplateImgText ({ description, uploadAction }) {
         console.log("input random template description....");
         await this.setValue(this.selectors.templateDescription, description);
@@ -227,7 +230,7 @@ export class TemplateSettings extends BasePage{
     }
 
 }
-
+// --- attack tab ---
 export class AttackTab extends BasePage{
     constructor (driver) {
         super(driver);

@@ -22,22 +22,24 @@ export class TimelinePage extends BasePage {
             return;
         }
     }
-    async filltimelineImage ({ description, uploadAction }) { 
-        await this.setValue(this.selectors.postText, text);
-        await capture(this.selectors);
+
+    // -- fill timeline post screen --
+    async fillTimeline ({ description, uploadAction }) { 
+        await this.setValue(this.selectors.postText, description);
+        await uploadAction(this.selectors);
         await this.elementExists(this.selectors.uploadImagePreview);
     }
 
+    // -- posting timeline flow --
     async postImage ({content}) {
         await this.waitAndClick(this.selectors.newPost);
-        await this.filltimelineImage ({ 
+        await this.fillTimeline ({ 
             description: content,
             uploadAction: this.cameraHelper.timelineCameraRoll.bind(this.cameraHelper)
         });
         
         await driver.pause(3000);
         await this.waitAndClick(this.selectors.saveTemplate);
-
     }
 
 }
