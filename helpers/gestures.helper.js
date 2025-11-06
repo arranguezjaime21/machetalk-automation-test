@@ -19,4 +19,40 @@ export class Gestures {
             speed: 1400, // optional, try 400–800
         });
     }
+
+    async scrollDown(speed = 1200) {
+        const { width, height } = await this.driver.getWindowRect();
+        const startX = width / 2;
+        const startY = height * 0.8; // near bottom
+        const endY = height * 0.3;   // near top
+
+        console.log(">>> Scrolling down...");
+        await this.driver.execute('mobile: dragGesture', {
+            startX,
+            startY,
+            endX: startX,
+            endY,
+            speed,
+        });
+
+        await this.driver.pause(2000); // wait for list to settle
+    }
+
+    async scrollUp(speed = 1200) {
+        const { width, height } = await this.driver.getWindowRect();
+        const startX = width / 2;
+        const startY = height * 0.3;
+        const endY = height * 0.8;
+
+        console.log(">>> Scrolling up...");
+        await this.driver.execute('mobile: dragGesture', {
+            startX,
+            startY,
+            endX: startX,
+            endY,
+            speed,
+        });
+
+        await this.driver.pause(2000);
+    }
 }

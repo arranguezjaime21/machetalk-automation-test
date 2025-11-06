@@ -156,6 +156,10 @@ export const TimelinePageSelectors = {
      deviceGallery: 'id=com.google.android.apps.photos:id/recycler_view',
      galleryItems: '//android.support.v7.widget.RecyclerView/android.widget.ImageView',
 
+    // -- in-review status -- 
+    approval: 'id=com.fdc_machetalk_broadcaster:id/tv_for_approval_message',
+    timelineList: '//androidx.recyclerview.widget.RecyclerView/android.widget.FrameLayout',
+
 
     // -- timeline tabs --
     tab1: '//*[@resource-id="com.fdc_machetalk_broadcaster:id/tab_title" and @text="すべて"]',
