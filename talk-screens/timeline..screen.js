@@ -18,6 +18,8 @@ export class TimelinePage extends BasePage {
     async navTimeline () { 
         try {
             await this.waitAndClick(this.selectors.timelineNav);
+            await this.waitAndClick(this.selectors.tab3);
+            await this.waitAndClick(this.selectors.newPost);
         } catch {
             return;
         }
@@ -30,16 +32,33 @@ export class TimelinePage extends BasePage {
         await this.elementExists(this.selectors.uploadImagePreview);
     }
 
-    // -- posting timeline flow --
+    // -- posting timeline flow via camera roll--
     async postImage ({content}) {
-        await this.waitAndClick(this.selectors.newPost);
+        await this.navTimeline();
         await this.fillTimeline ({ 
             description: content,
-            uploadAction: this.cameraHelper.timelineCameraRoll.bind(this.cameraHelper)
+            uploadAction: this.cameraHelper.timelineCameraRoll.bind(this.cameraHelper),
         });
         
         await driver.pause(3000);
         await this.waitAndClick(this.selectors.saveTemplate);
+    }
+
+    // -- posting timeline flow via device gallery --
+    async postGallery ({content}) {
+        await this.navTimeline();
+        await this.fillTimeline({
+            description: content,
+            uploadAction: this.cameraHelper.timelineGallery.bind(this.cameraHelper),
+        });
+
+        await driver.pause(3000);
+        await this.waitAndClick(this.selectors.saveTemplate);
+    }
+
+    async postTextOnly ({ content }) {
+        await this.navTimeline();
+        await this.setValue(this.selectors.postText, content);
     }
 
 }

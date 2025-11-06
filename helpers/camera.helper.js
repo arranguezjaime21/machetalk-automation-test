@@ -27,6 +27,8 @@ export class CameraHelper {
         }
         console.log(">>> Image captured and uploaded successfully");
     }
+
+    // --- TEMPLATE HELPERS ---
     async templateGallery (selectors) {
         await this.waitAndClick(selectors.btnIDCam);
         await this.waitAndClick(selectors.btnGallery);
@@ -68,5 +70,30 @@ export class CameraHelper {
             }
         }
         console.log(">>> Image captured and uploaded successfully");
+    }
+
+    // --- TIMELINE HELPERS ----
+    async timelineGallery (selectors) {
+        const elements = await this.waitAndFind$$(selectors.postGallery, 4000);
+        const count = elements.length;
+       
+        if (count === 2) { //permission not allow
+            //console.log(">>>Permission not allow, allowing permission...")
+            await elements[1].click();
+            const permission = await this.waitAndFind(selectors.libraryDialog);
+            if (permission) {
+                await this.waitAndClick(selectors.allowLibrary);
+            }
+            await this.waitAndClick(selectors.deviceFile);
+            const gallery = await this.waitAndFind(selectors.deviceGallery, 3000);
+            const image = await this.waitAndFind$$(selectors.galleryItems);
+            await image[2].click()
+            await this.waitAndClick(selectors.btnUpload);
+        } else if (count > 2) { //permission already allowed
+            //console.log(">>>Permission already allowed, selecting picture...")
+            await elements[2].click();
+            await this.waitAndClick(selectors.btnUpload);
+        }
+
     }
 }

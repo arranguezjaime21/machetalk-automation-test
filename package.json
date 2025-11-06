@@ -17,7 +17,8 @@
     "test:mypagetemplate": "npx mocha --require talk-test/mocha.global.js talk-test/mypage/template.main.js --timeout 60000 ",
     "test:message": "npx mocha --require talk-test/mocha.global.js talk-test/message/message.main.js --timeout 60000",
     "test:notificationsettings": "npx mocha --require talk-test/mocha.global.js talk-test/mypage/notification.settings.js --timeout 60000",
-    "test:streamingbonus": "npx mocha --require talk-test/mocha.global.js talk-test/mypage/streaming.bonus.js --timeout 60000"
+    "test:streamingbonus": "npx mocha --require talk-test/mocha.global.js talk-test/mypage/streaming.bonus.js --timeout 60000",
+    "test:timeline": "npx mocha --require talk-test/mocha.global.js talk-test/timeline/timeline.main.js --timeout 60000"
     
 
   },

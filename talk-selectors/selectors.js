@@ -133,8 +133,8 @@ export const TimelinePageSelectors = {
     timelineNav: '(//android.widget.ImageView[@resource-id="com.fdc_machetalk_broadcaster:id/icon"])[4]',
     newPost: 'id=com.fdc_machetalk_broadcaster:id/fl_new_post',
     postText: 'id=com.fdc_machetalk_broadcaster:id/et_post_text',
-    postCamera: '(//android.widget.FrameLayout[@resource-id="com.fdc_machetalk_broadcaster:id/fl_image_container"])[1]',
-    postGallery: '(//android.widget.FrameLayout[@resource-id="com.fdc_machetalk_broadcaster:id/fl_image_container"])[2]',
+    postCamera: '//*[@resource-id="com.fdc_machetalk_broadcaster:id/fl_image_container"][1]',
+    postGallery: '//*[@resource-id="com.fdc_machetalk_broadcaster:id/fl_image_container"]',
     uploadImagePreview: 'id=com.fdc_machetalk_broadcaster:id/iv_selected_photo',
     uploadImageCancel: 'id=com.fdc_machetalk_broadcaster:id/iv_selected_photo_dismiss',
 
@@ -143,8 +143,24 @@ export const TimelinePageSelectors = {
     successModal: 'id=com.fdc_machetalk_broadcaster:id/message',
     confirmBtn: 'id=com.fdc_machetalk_broadcaster:id/confirmButton',
 
-    // -- capture --
+    // -- capture and library --
     btnCapture: 'id=com.android.camera2:id/shutter_button',
     btnConfirm: 'id=com.android.camera2:id/done_button',
     btnUpload: 'id=com.fdc_machetalk_broadcaster:id/tv_use_photo',
+
+    // -- library permission --
+    libraryDialog: "id=com.android.permissioncontroller:id/grant_singleton",
+    allowLibrary: "id=com.android.permissioncontroller:id/permission_allow_all_button",
+    //>>>> custom locator <<<<<
+     deviceFile: '//*[@resource-id="com.google.android.apps.photos:id/title" and @text="Download"]',
+     deviceGallery: 'id=com.google.android.apps.photos:id/recycler_view',
+     galleryItems: '//android.support.v7.widget.RecyclerView/android.widget.ImageView',
+
+
+    // -- timeline tabs --
+    tab1: '//*[@resource-id="com.fdc_machetalk_broadcaster:id/tab_title" and @text="すべて"]',
+    tab2: '//*[@resource-id="com.fdc_machetalk_broadcaster:id/tab_title" and @text="フォロー中"]',
+    tab3: '//*[@resource-id="com.fdc_machetalk_broadcaster:id/tab_title" and @text="自分の投稿"]',
+
+    
 } 
