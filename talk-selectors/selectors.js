@@ -166,7 +166,13 @@ export const TimelinePageSelectors = {
     // -- empty list -- 
     emptyTimeline: 'id=com.fdc_machetalk_broadcaster:id/empty_result',
     emptyText: 'id=com.fdc_machetalk_broadcaster:id/tv_empty_result',
-
+    postOption: 'id=com.fdc_machetalk_broadcaster:id/btn_close',
+    
+    // -- deletion --
+    postDelModalText: 'id=com.fdc_machetalk_broadcaster:id/tv_title',
+    postDelCancel: 'id=com.fdc_machetalk_broadcaster:id/rl_csancel',
+    postDelConfirm: 'id=com.fdc_machetalk_broadcaster:id/rl_dialog_confirm',
+    postDelToast: 'id=com.fdc_machetalk_broadcaster:id/text_view_message',
 
     // -- timeline tabs --
     tab1: '//*[@resource-id="com.fdc_machetalk_broadcaster:id/tab_title" and @text="すべて"]',
