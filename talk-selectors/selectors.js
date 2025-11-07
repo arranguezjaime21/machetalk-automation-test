@@ -160,6 +160,13 @@ export const TimelinePageSelectors = {
     approval: 'id=com.fdc_machetalk_broadcaster:id/tv_for_approval_message',
     timelineList: '//androidx.recyclerview.widget.RecyclerView/android.widget.FrameLayout',
 
+    // -- post in review , if actual post display on the list -- 
+    postedText: '//*[@resource-id="com.fdc_machetalk_broadcaster:id/tv_content" and string-length(@text) > 0]',
+
+    // -- empty list -- 
+    emptyTimeline: 'id=com.fdc_machetalk_broadcaster:id/empty_result',
+    emptyText: 'id=com.fdc_machetalk_broadcaster:id/tv_empty_result',
+
 
     // -- timeline tabs --
     tab1: '//*[@resource-id="com.fdc_machetalk_broadcaster:id/tab_title" and @text="すべて"]',

@@ -13,10 +13,11 @@ describe ("Timeline Page", function() {
 //             content: timelinetext,
 //         });
 //    });
-   it("Timeline Post Test", async function () {
-        const timelinetext = FakeData.randomSentence();
-        await timelinePosting.postTextOnly({
-            content: timelinetext,
+        it("Timeline Post Test", async function () {
+                const timelinetext = FakeData.randomSentence();
+                await timelinePosting.postTextOnly({
+                    content: timelinetext,
+                });
         });
-   });
+
 })
