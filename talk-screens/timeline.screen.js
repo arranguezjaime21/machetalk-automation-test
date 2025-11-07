@@ -17,6 +17,7 @@ export class TimelinePosting extends BasePage {
         )
     }
 
+    // -- navigation for timeline posting screen --
     async navTimeline () { 
         try {
             await this.waitAndClick(this.selectors.timelineNav);
@@ -28,7 +29,7 @@ export class TimelinePosting extends BasePage {
     }
 
     // -- fill timeline post screen --
-    async fillTimeline ({ description, uploadAction }) { 
+    async fillTimelineImgText ({ description, uploadAction }) { 
         await this.setValue(this.selectors.postText, description);
         await uploadAction(this.selectors);
         await this.elementExists(this.selectors.uploadImagePreview);
@@ -37,7 +38,7 @@ export class TimelinePosting extends BasePage {
     // -- posting timeline flow via camera roll--
     async postImage ({content}) {
         await this.navTimeline();
-        await this.fillTimeline ({ 
+        await this.fillTimelineImgText ({ 
             description: content,
             uploadAction: this.cameraHelper.timelineCameraRoll.bind(this.cameraHelper),
         });
@@ -49,7 +50,7 @@ export class TimelinePosting extends BasePage {
     // -- posting timeline flow via device gallery --
     async postGallery ({content}) {
         await this.navTimeline();
-        await this.fillTimeline({
+        await this.fillTimelineImgText({
             description: content,
             uploadAction: this.cameraHelper.timelineGallery.bind(this.cameraHelper),
         });
@@ -58,15 +59,17 @@ export class TimelinePosting extends BasePage {
         await this.waitAndClick(this.selectors.saveTemplate);
     }
 
+    // -- posting text only and checking the display for timeline posted --
     async postTextOnly ({ content }) {
         await this.navTimeline();
         await this.setValue(this.selectors.postText, content);
+        const timelinePostText = await this.waitAndGetText(this.selectors.postText);
         await this.waitAndClick(this.selectors.saveTemplate);
         await this.driver.pause(5000);
-        await this.checkUploadedPost();
-        
+        await this.checkUploadedPost(timelinePostText);
     }
 
+    // -- checker if timeline list is empty --
     async emptyList () {
         const empty = await this.elementExists(this.selectors.emptyTimeline, 5000);
          if (empty) {
@@ -77,9 +80,9 @@ export class TimelinePosting extends BasePage {
         return false;
     }
 
+    // -- checker for timeline list, approval and approve post --
     async postStatuses () {
         const isEmpty = await this.emptyList();
-
         if (isEmpty) {
             console.log(">>> No post found in timeline list");
             return;
@@ -90,7 +93,7 @@ export class TimelinePosting extends BasePage {
         
         let approvalCount = 0;
 
-        // check post list waiting for approval
+       
         for (const post of postList){
             const forApproval = await post.$(this.selectors.approval);
             if (await forApproval.isDisplayed().catch(() => false)) {
@@ -98,10 +101,8 @@ export class TimelinePosting extends BasePage {
             }
         }
 
-        //select latest post
         const latestUpload = postList[0];
 
-        // check approval status under the latest upload
         const inReview = await latestUpload.$(this.selectors.approval, 3000);
         const isDisplayed = await inReview.isDisplayed().catch(() => false);
         if (isDisplayed) {
@@ -111,7 +112,8 @@ export class TimelinePosting extends BasePage {
         } 
     }
 
-    async checkUploadedPost () {
+    // -- checker if posted timeline successfully displayed in the list -- 
+    async checkUploadedPost (expectedText) {
          const isEmpty = await this.emptyList();
 
         if (isEmpty) {
@@ -124,13 +126,12 @@ export class TimelinePosting extends BasePage {
 
         const inReview = await latestPost.$(this.selectors.approval);
         if (!inReview) {
-            console.log(">>> No inreview post in the latest post");
+            console.log(">>> No for approval post in the latest post");
             return;
         }
 
         try {
 
-            // checking if uploaded timeline is displayed 
             await this.gesture.swipeDownToRefresh();
             const isDisplayed = await inReview.isDisplayed().catch(() => false);
             if (isDisplayed) {
@@ -139,16 +140,22 @@ export class TimelinePosting extends BasePage {
                 console.log(">>> Timeline post is not displayed");
             } 
 
-            //checking if posted text matches on users post
             const textElement =  await latestPost.$(this.selectors.postedText);
             const textExist = await textElement.isExisting();
             if (!textExist) {
                 console.log(">>> Latest post has no text");
             } else {
                 const textDisplay = await textElement.getText();
-                console.log(`>>> Timeline Content: "${textDisplay}"`);
-            }
+                console.log(`>>> Timeline Post: "${textDisplay}"`);
 
+                if (textDisplay.trim() === expectedText.trim()) {
+                    console.log(`>>> The uploaded post text matches the user input in timeline post screen`);
+                } else {
+                    console.log(`Posted text is mismatch. 
+                        Expected: "${expectedText}" 
+                        Found: "${textDisplay}"`);
+                }
+            }
 
         } catch (err) {
             throw new Error(`>>> Unexpected error or post failed ${err.message}`);

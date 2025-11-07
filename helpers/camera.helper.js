@@ -69,7 +69,7 @@ export class CameraHelper {
                 console.warn("!missing selector in step list");
             }
         }
-        console.log(">>> Image captured and uploaded successfully");
+        //console.log(">>> Image captured and uploaded successfully");
     }
 
     // --- TIMELINE HELPERS ----
