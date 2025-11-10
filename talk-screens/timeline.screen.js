@@ -6,7 +6,6 @@ import { BasePage } from "./base.screen.js";
 export class TimelinePosting extends BasePage {
     constructor(drive) {
         super(driver);
-        // this.driver = driver;
         this.selectors = TimelinePageSelectors;
         this.gesture = new Gestures(driver);
         this.cameraHelper = new CameraHelper (
@@ -17,61 +16,58 @@ export class TimelinePosting extends BasePage {
         )
     }
 
-    // -- navigation for timeline posting screen --
-    async navTimeline () { 
+    // --- TIMELINE POST SCREEN NAVIGATOR ---
+    async navTimelinePostScreen () { 
         try {
             await this.waitAndClick(this.selectors.timelineNav);
-            await this.waitAndClick(this.selectors.tab3);
+            await this.waitAndClick(this.selectors.tab3); 
         } catch {
             return;
         }
     }
 
-    // -- fill timeline post screen --
-    async fillTimelineImgText ({ description, uploadAction }) { 
+    // --- TIMELINE POST FILLER ---
+    async fillTimelineImgText ({ description, uploadAction }) {
         await this.setValue(this.selectors.postText, description);
         await uploadAction(this.selectors);
-        await this.elementExists(this.selectors.uploadImagePreview);
+        await this.elementExists(this.selectors.uploadImagePreview, 10000);
     }
 
-    // -- posting timeline flow via camera roll--
-    async postImage ({content}) {
-        await this.navTimeline();
+    // --- TIMELINE POST ---
+    async postTimeline ({content, postType = "text"}) {
+        await this.navTimelinePostScreen();
         await this.waitAndClick(this.selectors.newPost);
-        await this.fillTimelineImgText ({ 
-            description: content,
-            uploadAction: this.cameraHelper.timelineCameraRoll.bind(this.cameraHelper),
-        });
-        
-        await driver.pause(3000);
-        await this.waitAndClick(this.selectors.saveTemplate);
-    }
 
-    // -- posting timeline flow via device gallery --
-    async postGallery ({content}) {
-        await this.navTimeline();
-        await this.waitAndClick(this.selectors.newPost);
-        await this.fillTimelineImgText({
-            description: content,
-            uploadAction: this.cameraHelper.timelineGallery.bind(this.cameraHelper),
-        });
+        switch (postType) {
 
-        await driver.pause(3000);
-        await this.waitAndClick(this.selectors.saveTemplate);
-    }
+            case "text":
+                await this.setValue(this.selectors.postText, content);
+            break;
 
-    // -- posting text only and checking the display for timeline posted --
-    async postTextOnly ({ content }) {
-        await this.navTimeline();
-        await this.waitAndClick(this.selectors.newPost);
-        await this.setValue(this.selectors.postText, content);
+            case "camera":
+                await this.fillTimelineImgText ({ 
+                description: content,
+                uploadAction: this.cameraHelper.timelineCameraRoll.bind(this.cameraHelper),
+                });
+            break;
+
+            case "gallery":
+                await this.fillTimelineImgText({
+                description: content,
+                uploadAction: this.cameraHelper.timelineGallery.bind(this.cameraHelper),
+                });
+            break;
+
+            default:
+                throw new Error(`Inputted postype: "${postType}" is invalid. use "text" | "gallery" | "camera"`)
+        }
         const timelinePostText = await this.waitAndGetText(this.selectors.postText);
         await this.waitAndClick(this.selectors.saveTemplate);
-        await this.driver.pause(5000);
-        await this.checkUploadedPost(timelinePostText);
+        await this.verifyUploadedPost(timelinePostText);
+        await this.postStatuses();
     }
 
-    // -- checker if timeline list is empty --
+    // --- CHECKER IF TIMELINE LIST IS EMPTY ---
     async emptyList () {
         const empty = await this.elementExists(this.selectors.emptyTimeline, 5000);
          if (empty) {
@@ -82,13 +78,9 @@ export class TimelinePosting extends BasePage {
         return false;
     }
 
-    // -- checker for timeline list, approval and approve post --
+    // --- CHECKER FOR TIMELINE STATUSES --- 
     async postStatuses () {
-        const isEmpty = await this.emptyList();
-        if (isEmpty) {
-            console.log(">>> No post found in timeline list");
-            return;
-        }
+        if (await this.emptyList()) return;
 
         const postList = await this.waitAndFind$$(this.selectors.timelineList, 5000);
         const totalPost = postList.length;
@@ -105,43 +97,34 @@ export class TimelinePosting extends BasePage {
 
         const latestUpload = postList[0];
 
-        const inReview = await latestUpload.$(this.selectors.approval, 3000);
+        const inReview = await latestUpload.$(this.selectors.approval);
         const isDisplayed = await inReview.isDisplayed().catch(() => false);
-        if (isDisplayed) {
-            console.log(`>>> Found ${approvalCount} post waiting for approval out of ${totalPost}`);
-        } else {
-            console.log(">>> All post are already approve");
-        } 
+        console.log (
+            isDisplayed
+            ? `>>> Found ${approvalCount} post waiting for approval out of ${totalPost}`
+            : ">>> All post are already approve"
+        );
     }
 
-    // -- checker if posted timeline successfully displayed in the list -- 
-    async checkUploadedPost (expectedText) {
-         const isEmpty = await this.emptyList();
-
-        if (isEmpty) {
-            console.log(">>> No post found in timeline list");
-            return;
-        }
-        
-        const postList = await this.waitAndFind$$(this.selectors.timelineList, 5000);
-        const latestPost = postList[0];
-
-        const inReview = await latestPost.$(this.selectors.approval);
-        if (!inReview) {
-            console.log(">>> No for approval post in the latest post");
-            return;
-        }
-
+    // --- VERIFY UPLOADED POST IN TIMELINE SCREEN ---
+    async verifyUploadedPost (expectedText) {
+        await driver.pause(2000);
+        await this.gesture.swipeDownToRefresh();
         try {
+            const postList = await this.waitAndFind$$(this.selectors.timelineList, 5000);
+            const latestPost = postList[0];
 
-            await this.gesture.swipeDownToRefresh();
+            const inReview = await latestPost.$(this.selectors.approval);
+            if (!inReview) return console.log(">>> No for approval post in the latest post");
+
             const isDisplayed = await inReview.isDisplayed().catch(() => false);
-            if (isDisplayed) {
-                console.log(">>> Timeline post is successfully displayed and waiting for review");
-            } else {
-                console.log(">>> Timeline post is not displayed");
-            } 
+            console.log(
+                isDisplayed
+                ? ">>> Timeline post is successfully displayed and waiting for review"
+                : ">>> Timeline post is not displayed"
+            );
 
+            // --CHECKER IF POST MATCHES ON THE LIST SCREEN--
             const textElement =  await latestPost.$(this.selectors.postedText);
             const textExist = await textElement.isExisting();
             if (!textExist) {
@@ -164,31 +147,33 @@ export class TimelinePosting extends BasePage {
         } 
     }
 
-    // -- timeline deletion -- 
+    // --- TIMELINE DELETION ---
     async postDeletion (index) {
         await this.gesture.swipeDownToRefresh();
-     try {
-            const isEmpty = await this.emptyList();
-            if(isEmpty) {
-                console.log("No post found in timeline list nothing to delete");
-                return;
-            }
+        if (await this.emptyList()) return console.log("No post found in timeline list nothing to delete");
 
-            const postList = await this.waitAndFind$$(this.selectors.timelineList, 5000);
-            if(!postList || postList.length === 0) {
-                console.log("No post found in timeline list nothing to delete");
-                return;
-            }
+        // >> timeline is empty <<
+        const postList = await this.waitAndFind$$(this.selectors.timelineList, 5000);
+        if(!postList || postList.length === 0) {
+            console.log("No post found in timeline list nothing to delete");
+            return;
+        }
+        // >> if index is greater than timeline list <<
+        if(index >= postList.length) {
+            console.warn(`>>> Invalid index (${index}). Only ${postList.length} is available`);
+            return;
+        }
 
-            if(index >= postList.length) {
-                console.warn(`>>> Invalid index (${index}). Only ${postList.length} is available`);
-                return;
-            }
+        try {
 
-            const recentPost = postList[index];
-            const postItem = await recentPost.$(this.selectors.approval);
+            const targetPost = postList[index];
+            const textElement = await targetPost.$(this.selectors.postedText);
+            const deletedPostItem = await textElement.getText().catch(() => "Unknown text");
+
+
+            const postItem = await targetPost.$(this.selectors.approval);
             const isInReview = await postItem.isExisting().catch(() => false);
-            
+
             if (isInReview) {
                 console.info("Post is in review and nothing to delete")
                 return;
