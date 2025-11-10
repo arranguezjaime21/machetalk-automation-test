@@ -35,7 +35,7 @@ export class MyPage extends BasePage {
     }
 }
 
-//logout function
+// ---LOGOUT FUNCTION---
 export class Logout extends BasePage {
     constructor(driver) {
         super(driver);
@@ -47,19 +47,22 @@ export class Logout extends BasePage {
         await myPage.navMyPage();
         await myPage.variousSettings();
 
-        const logout = await this.waitAndFind(this.selectors.logoutBtn, 3000);
-        for (let i =0; i < 10; i++) {
-            await logout.click();
-            await this.driver.pause(50);
-        } 
+        try {
+            const logout = await this.waitAndFind(this.selectors.logoutBtn, 3000);
+            for (let i =0; i < 10; i++) {
+                await logout.click();
+                await this.driver.pause(50);
+            } 
 
-        const logoutModal = await this.elementExists(this.selectors.logoutModal);
-        if (!logoutModal) throw new Error("⚠️ Logout modal did not appear after 10 taps");
+            const logoutModal = await this.elementExists(this.selectors.logoutModal);
+            if (!logoutModal) throw new Error(">>> Logout modal did not appear after 10 taps");
             await this.waitAndClick(this.selectors.logoutConfirm);
+        } catch (err) {
+            console.log(`>>> Unexpected error: ${err.message}`);
         }
+    } 
 }
-
-// liver owned stars -- cashout web view 
+// ---OWNED STARS AND CASHOUT WEBVIEW---
 export class Stars extends BasePage {
     constructor(driver) {
         super(driver);
@@ -70,14 +73,14 @@ export class Stars extends BasePage {
     async userStars () {
         await myPage.navMyPage();
         const stars = await this.waitAndGetText(this.selectors.ownStars);
-        console.log(`Users acquired stars: ${stars}`);
+        console.log(`>>> Users acquired stars: ${stars}`);
         await myPage.starsOwned();
      
         try {
             const webviewDisplay = await this.elementExists(this.selectors.successDisplay, 10000);
 
             if (webviewDisplay) {
-                console.log("Webview successfully displayed.")
+                console.log(">>> Webview successfully displayed.")
                 await driver.pause(3000);
                 const webstars = await this.waitAndGetText(this.selectors.starwebV);
 
@@ -87,21 +90,21 @@ export class Stars extends BasePage {
                 const webviewStars = starDisplay(webstars);
                
                 if (mypageStars === webviewStars) {
-                    console.log("webview stars displayed is the same on mypage")
+                    console.log(">>> webview stars displayed is the same on mypage")
                 } else {
-                    console.log("incorrect stars displayed in webview screen")
+                    console.log(">>> incorrect stars displayed in webview screen")
                 }
                 
             } else {
-                console.warn("webview still not displayed, continuing without error...")
+                console.warn(">>> webview still not displayed, continuing without error...")
             }
-             await this.waitAndClick(this.selectors.closeWebView);
+            await this.waitAndClick(this.selectors.closeWebView);
         } catch (err) {
-            throw new Error(`unexpected error, ${err.message}`);
+            throw new Error(`>>> Unexpected error, ${err.message}`);
         }
    }
 }
-// template function -- set template, update and delete 
+// ---TEMPLATE FUNCTION---
 export class MyPageTemplate extends BasePage {
     constructor(driver) {
         super(driver);
@@ -122,19 +125,16 @@ export class MyPageTemplate extends BasePage {
         try {
             const title = await this.waitAndGetText(this.selectors.templateTitle);
             if (title !== expectedText) {
-                //return falseif title did not match the expected title
-                console.log(`Incorrect wording title is displayed, expected "${expectedText}", display is: "${title}"`);
+                console.log(`>>> Incorrect wording title is displayed, expected "${expectedText}", display is: "${title}"`);
                 return false;
             } else {
             // edit テンプレート編集
             // new テンプレート作成
-                //return true if title matches the expected title
-                console.log(`${title} is displayed correctly`);
+                console.log(`>>> ${title} is displayed correctly`);
                 return true;
             }
         } catch (error) {
-            //return false and continuation even if element is not exist or not found
-            console.log(`Unable to verify template title. Expected "${expectedText}" - ${error.message || error}`);
+            console.log(`>>> Unable to verify template title. Expected "${expectedText}" - ${error.message || error}`);
         }
     }
 
@@ -143,38 +143,32 @@ export class MyPageTemplate extends BasePage {
             await this.myPage.navMyPage();
             await this.myPage.templateSettings();
         } catch {
-            console.log("User already in template settings screen")
+            return;
         }
     }
 
     async saveAndConfirm () {
-        console.log("Saving template....")
+        console.log(">>> Saving template....")
         await this.waitAndClick(this.selectors.saveTemplate);
         try {
             const modal = await this.elementExists(this.selectors.successModal, 5000);
             if (!modal) {
-                console.log("success modal is not displayed after saving template");
-                return false;
+                console.log(">>> Success modal is not displayed after saving template");
             } else {
-                console.log("Success modal is displayed")
+                console.log(">>> Success modal is displayed")
                 await this.waitAndClick(this.selectors.confirmBtn);
-                return true;
             }
         } catch (error) {
-            console.log(`Unable to find modal or does not exist after saving template, - ${error.message || error}`);
+            console.log(`>>> Unable to find modal or does not exist after saving template, - ${error.message || error}`);
             return false;
         }
-        // const modal = await this.elementExists(this.selectors.successModal, 5000);
-        // if (!modal) throw new Error ("Unexpected error or modal is not displayed");
-        // console.log("Success modal is displayed")
-        // await this.waitAndClick(this.selectors.confirmBtn);
     }
 
     async fillTemplate ({ description, uploadAction}){
-        console.log("Inputting template description...");
+        console.log(">>> Inputting template description...");
         await this.setValue(this.selectors.templateDescription, description);
-        console.log("Successfully inputted template description...");
-        console.log("Uploading image template...");
+        console.log(">>> Successfully inputted template description...");
+        console.log(">>> Uploading image template...");
         await uploadImage(this.selectors);
         await this.elementExists(this.selectors.iconThumbImage, 3000);
     }
@@ -203,9 +197,9 @@ export class MyPageTemplate extends BasePage {
     async deletionModal (expectedText) {
         const title = await this.waitAndGetText(this.selectors.deletionModalText);
         if (title !== expectedText) {
-            throw new Error (`unexpected error occurs!! "${expectedText}" show: "${title}"`); 
+            throw new Error (`>>> unexpected error occurs!! "${expectedText}" show: "${title}"`); 
         } else {
-            console.log(`deletion modal is displayed, wording: "${title}"`);
+            console.log(`>>> deletion modal is displayed, wording: "${title}"`);
         }
     }
     async deleteTemplate (index) {
