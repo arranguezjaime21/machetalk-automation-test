@@ -122,8 +122,12 @@ export class TemplateSettings extends BasePage{
     // --TEMPLATE FILLER--
     async fillTemplate({ description, uploadAction }) {
         await this.setValue(this.selectors.templateDescription, description);
-        await uploadAction(this.selectors);
-        await this.elementExists(this.selectors.iconThumbImage, 5000);
+        try {
+            await uploadAction(this.selectors);
+            await this.elementExists(this.selectors.iconThumbImage, 5000);
+        } catch (err) {
+            throw new Error(`Template image upload failed: ${err.message}`);
+        }
     }
 
     // --TEMPLATE CREATION--
@@ -151,7 +155,7 @@ export class TemplateSettings extends BasePage{
             break;
 
             default:
-                throw new Error(`Inputted templateType: "${templateType} is invalid. use "text" | "camera" | "gallery"`);
+                throw new Error(`Inputted templateType: "${templateType}" is invalid. use "text" | "camera" | "gallery"`);
         }
 
         const templatePostText = await this.waitAndGetText(this.selectors.templateDescription);
