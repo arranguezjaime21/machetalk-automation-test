@@ -104,7 +104,7 @@ export class Stars extends BasePage {
         }
    }
 }
-// ---TEMPLATE FUNCTION---
+// ---TEMPLATE SETTINGS---
 export class MyPageTemplate extends BasePage {
     constructor(driver) {
         super(driver);
@@ -120,7 +120,7 @@ export class MyPageTemplate extends BasePage {
             this.waitAndFind$$.bind(this),
         );
     }
-
+    // --TEMPLATE TITLE--
     async templateTitle (expectedText) { 
         try {
             const title = await this.waitAndGetText(this.selectors.templateTitle);
@@ -130,68 +130,95 @@ export class MyPageTemplate extends BasePage {
             } else {
             // edit テンプレート編集
             // new テンプレート作成
-                console.log(`>>> ${title} is displayed correctly`);
+                console.log(`>>> Template Title:  "${title}"`);
                 return true;
             }
         } catch (error) {
             console.log(`>>> Unable to verify template title. Expected "${expectedText}" - ${error.message || error}`);
         }
     }
-
+    // --TEMPLATE NAVIGATION--
     async navMyPageTemplate () {
         try {
             await this.myPage.navMyPage();
             await this.myPage.templateSettings();
+            await this.waitAndClick(this.selectors.createTemplate);
         } catch {
             return;
         }
     }
-
-    async saveAndConfirm () {
-        console.log(">>> Saving template....")
+    // --SAVE TEMPLATE--
+    async saveAndVerifyTemplate (expectedText) {
         await this.waitAndClick(this.selectors.saveTemplate);
-        try {
+        try {   
             const modal = await this.elementExists(this.selectors.successModal, 5000);
-            if (!modal) {
-                console.log(">>> Success modal is not displayed after saving template");
+            if (!modal) return console.log(">>> Success modal is not displayed after saving template");
+            await this.waitAndClick(this.selectors.confirmBtn);
+            await driver.pause(2000);
+        
+            const templateList = await this.waitAndFind$$(this.selectors.templateList, 5000);
+            const totalTemplate = templateList.length;
+
+            if (totalTemplate === 0) return  console.log(">>> No templates found after saving");
+            const recentTemplateCreated = templateList[1];
+
+            // --CHECKER IF POST MATCHES ON THE LIST SCREEN--
+            const textElement = await recentTemplateCreated.$(this.selectors.postedText);
+            const isExist = await textElement.isExisting();
+            if (!isExist) {
+               console.warn(">>> Element not found");
             } else {
-                console.log(">>> Success modal is displayed")
-                await this.waitAndClick(this.selectors.confirmBtn);
+                const textDisplay = await textElement.getText();
+                if (textDisplay.trim() === expectedText.trim()) {
+                    console.log(">>> Created template successfully displayed in template list");
+                } else {
+                    console.log(`>>> Template text is mismatch.
+                    Found Text: "${textDisplay}"
+                    Expected Text: "${expectedText}"`);
+                }
             }
+
         } catch (error) {
-            console.log(`>>> Unable to find modal or does not exist after saving template, - ${error.message || error}`);
+            console.log(`>>> Unepected error: ${error.message || error}`);
             return false;
         }
     }
-
+    // --TEMPLATE FILLER--
     async fillTemplate ({ description, uploadAction}){
-        console.log(">>> Inputting template description...");
         await this.setValue(this.selectors.templateDescription, description);
-        console.log(">>> Successfully inputted template description...");
-        console.log(">>> Uploading image template...");
-        await uploadImage(this.selectors);
-        await this.elementExists(this.selectors.iconThumbImage, 3000);
+        await uploadAction(this.selectors);
+        await this.elementExists(this.selectors.iconThumbImage, 5000);
     }
-    
-    async createTextCaptureTemplate ({content}) { 
+
+    async templateCreation ({content, templateType = "text"}) {
         await this.navMyPageTemplate();
-        await this.waitAndClick(this.selectors.createTemplate);
         await this.templateTitle("テンプレート作成");
-        await this.fillTemplate({
-            description: content,
-            uploadAction: this.cameraHelper.templateCameraRoll.bind(this.cameraHelper),
-        });
-        await this.saveAndConfirm();
-    }
-    async creatTextGalleryTemplate ({content}) {
-        await this.navMyPageTemplate();
-        await this.waitAndClick(this.selectors.createTemplate);
-        await this.templateTitle("テンプレート作成");
-        await this.fillTemplate ({
-            description: content,
-            uploadImage: this.cameraHelper.tempateGallery.bind(this.cameraHelper),
-        });
-        await this.saveAndConfirm();
+
+        switch(templateType) {
+            case "text":
+                await this.setValue(this.selectors.templateDescription, content);
+            break;
+
+            case "camera":
+                await this.fillTemplate({
+                    description: content,
+                    uploadAction: this.cameraHelper.templateCameraRoll.bind(this.cameraHelper),
+                });
+            break;
+
+            case "gallery":
+                await this.fillTemplate({
+                    description: content,
+                    uploadAction: this.cameraHelper.templateGallery.bind(this.cameraHelper),
+                })
+            break;
+
+            default: 
+                throw new Error(`Inputted templateType: "${templateType}" is invalid, use "text" | "camera " | "gallery"`);
+        }
+        const templatePostText = await this.waitAndGetText(this.selectors.templateDescription);
+        console.log(`>>> Template content: "${templatePostText}"`);
+        await this.saveAndVerifyTemplate(templatePostText);
     }
 
     async deletionModal (expectedText) {
@@ -211,27 +238,8 @@ export class MyPageTemplate extends BasePage {
         await this.waitAndClick(this.selectors.confirmDeletion);
         console.log("secessfully deleted template...")
     }
-
-    async templateList() {
-        return this.waitAndFind$$(this.selectors.deleteTemplate, 3000);
-    }
-
-    async deleteAllTemplate (index = 0) {
-        const templates = await this.templateList();
-        if (templates.length === 0) {
-            console.warn("no templates found to delete");
-            return;
-        }
-        const target = templates[index];
-        await target.click();
-        console.log(`deleting template at index ${index}`);
-
-        await this.waitAndClick(this.selectors.confirmDeletion);
-        console.log("secessfully deleted template...")
-
-    }
 }
-// notification settings screen - enable settings
+// --NOTIFICATION SETTINGS--
 export class NotificationSettings extends BasePage {
     constructor (driver) {
         super(driver);
@@ -250,7 +258,7 @@ export class NotificationSettings extends BasePage {
         const notifySettings = await this.isButtonEnable(this.selectors.notificationsToggle);
         try {
             if (!vibrateSettings || !soundSettings || !notifySettings) {
-                console.log("settings are off, enabling settings...");
+                console.log(">>> settings are off, enabling settings...");
 
                 if (!vibrateSettings) {
                     await this.waitAndClick(this.selectors.vibrateToggle);
@@ -263,17 +271,17 @@ export class NotificationSettings extends BasePage {
                 }
                 
             } else {
-                console.log("settings already enabled");
+                console.log(">>> settings already enabled");
                 await this.waitAndClick(this.selectors.backBtn);
             }
         } catch (error) {
-            console.log(`unexpected error or button not found: "${error.message}"`);
+            console.log(`>>> unexpected error or button not found: "${error.message}"`);
         }
         await driver.pause(3000);
         await this.waitAndClick(this.selectors.backBtn);
     }
 }
-// streaming bonuses, check for display of webview 
+// --STREAMING BONUS--
 export class StreamingBonus extends BasePage {
     constructor (driver) {
         super(driver);
@@ -286,21 +294,21 @@ export class StreamingBonus extends BasePage {
             await this.myPage.navMyPage();
             await this.myPage.streamingBonuses();
         } catch {
-            console.log("user already in streaming bonuses screen");
+            console.log(">>> user already in streaming bonuses screen");
         }
 
         const isWebviewDisplay = await this.elementExists(this.selectors.streamingWebview, 3000);
 
         try {
             if (isWebviewDisplay) {
-                console.log("streaming bonuses successfully displayed");
+                console.log(">>> streaming bonuses successfully displayed");
                 await driver.pause(3000);
             } else {
-                console.log("streaming bonuses webview is not displayed");
+                console.log(">>> streaming bonuses webview is not displayed");
             }
                 await this.waitAndClick(this.selectors.closeWebView);            
         } catch (err) {
-            throw new Error(`unexpected error or webview not found ${err.message}`);
+            throw new Error(`>>> unexpected error or webview not found ${err.message}`);
         }
     }
 }

@@ -69,7 +69,8 @@ export const TemplateSelectors = {
     confirmDeletion: 'id=com.fdc_machetalk_broadcaster:id/rl_dialog_confirm',
 
     // -- template item -
-    templateItem: '(//android.widget.RelativeLayout[@resource-id="com.fdc_machetalk_broadcaster:id/template_item"])',
+    templateList: '//androidx.recyclerview.widget.RecyclerView/android.widget.RelativeLayout',
+    postedText: '//*[@resource-id="com.fdc_machetalk_broadcaster:id/tv_content" and string-length(@text) > 0]',
 
     // -- library permission --
     libraryDialog: "id=com.android.permissioncontroller:id/grant_singleton",
@@ -139,9 +140,7 @@ export const TimelinePageSelectors = {
     uploadImageCancel: 'id=com.fdc_machetalk_broadcaster:id/iv_selected_photo_dismiss',
 
     // -- save function -- 
-    saveTemplate: 'id=com.fdc_machetalk_broadcaster:id/rl_confirm',
-    successModal: 'id=com.fdc_machetalk_broadcaster:id/message',
-    confirmBtn: 'id=com.fdc_machetalk_broadcaster:id/confirmButton',
+    submitPost: 'id=com.fdc_machetalk_broadcaster:id/rl_confirm',
 
     // -- capture and library --
     btnCapture: 'id=com.android.camera2:id/shutter_button',

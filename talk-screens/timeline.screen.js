@@ -62,8 +62,7 @@ export class TimelinePosting extends BasePage {
                 throw new Error(`>>> Inputted postype: "${postType}" is invalid. use "text" | "gallery" | "camera"`)
         }
         const timelinePostText = await this.waitAndGetText(this.selectors.postText);
-        await this.waitAndClick(this.selectors.saveTemplate);
-        await this.verifyUploadedPost(timelinePostText);
+        await this.submitAndVerifyUploadedPost(timelinePostText);
         await this.postStatuses();
     }
 
@@ -101,15 +100,17 @@ export class TimelinePosting extends BasePage {
         const isDisplayed = await inReview.isDisplayed().catch(() => false);
         console.log (
             isDisplayed
-            ? `>>> Found ${approvalCount} post waiting for approval out of ${totalPost}`
+            ? `>>> Found ${approvalCount} post waiting for approval out of ${totalPost} in timeline pagination`
             : ">>> All post are already approve"
         );
     }
 
     // --- VERIFY UPLOADED POST IN TIMELINE SCREEN ---
-    async verifyUploadedPost (expectedText) {
+    async submitAndVerifyUploadedPost (expectedText) {
+        await this.waitAndClick(this.selectors.submitPost);
         await driver.pause(2000);
         await this.gesture.swipeDownToRefresh();
+        if (await this.emptyList()) return console.log(">>> Timeline list is empty");
         try {
             const postList = await this.waitAndFind$$(this.selectors.timelineList, 5000);
             const latestPost = postList[0];
