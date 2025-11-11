@@ -109,6 +109,7 @@ export class TemplateSettings extends BasePage{
         this.callSettings = new CallSettings(driver);
     }
 
+    // --NAVIGATION--
     async navTemplateCard () {
        try {
             await this.callSettings.navSearchPage();
@@ -118,111 +119,87 @@ export class TemplateSettings extends BasePage{
         }
     }
 
-    // -- template screen title --
-    async templateTitle (expectedTitle) {
-        const title = await this.waitAndGetText(this.selectors.templateTitle);
-
-        if (title !== expectedTitle) {
-            throw new Error (`Incorrect wording is displayed. Expected: "${expectedTitle}", got: "${title}"`);
-        } else {
-            console.log(`${title} is displayed`);
-        }
-        // edit テンプレート編集
-        // new テンプレート作成
-    } 
-   
-    async closeTemplate () {
-        await this.waitAndClick(this.selectors.closedTemplate);
-    }
-
-    // -- template deletion modal --
-    async deletionModal (expectedText) {
-        const title = await this.waitAndGetText(this.selectors.deletionModalText);
-        if (title !== expectedText) {
-            throw new Error (`unexpected error occurs!! "${expectedText}" show: "${title}"`); 
-        } else {
-            console.log(`deletion modal is displayed, wording: "${title}"`);
-        }
-    }
-    // -- template deletion --
-    async deleteTemplate () {
-        await this.navTemplateCard();
-        const template = await this.waitAndFind$$(this.selectors.deleteTemplate, 3000);
-        if (template.lenght === 0) throw new Error ("No templates found to delete");
-        console.log("deleting template...")
-        await template[0].click();
-        await this.deletionModal("テンプレートを削除");
-        await this.waitAndClick(this.selectors.confirmDeletion);
-        console.log("secessfully deleted template...")
-    }
-
-    async saveAndConfirm () {
-        console.log("saving template....");
-        await this.waitAndClick(this.selectors.saveTemplate);
-
-        const success = await this.elementExists(this.selectors.successModal, 10000);
-        if (!success) throw new Error ("Unexpected error occurs or modal is not displayed!");
-        console.log("modal for template creation is displayed");
-        await this.waitAndClick(this.selectors.confirmBtn);
-    }
-    // -- filling template screen --
-    async fillTemplateImgText ({ description, uploadAction }) {
-        console.log("input random template description....");
+    // --TEMPLATE FILLER--
+    async fillTemplate({ description, uploadAction }) {
         await this.setValue(this.selectors.templateDescription, description);
-        console.log("description entered");
-        console.log("uploading image...");
         await uploadAction(this.selectors);
-        await this.elementExists(this.selectors.iconThumbImage, 3000);
-        console.log("image thumbnail is displayed...");
+        await this.elementExists(this.selectors.iconThumbImage, 5000);
     }
 
-    // -- Text Only --
-    async createTextTemplate ({content}) {
+    // --TEMPLATE CREATION--
+    async templateCreation ({ content, templateType = "text"}) {
         await this.navTemplateCard();
-        console.log("opening template creation screen....");
         await this.waitAndClick(this.selectors.createTemplate);
-        await this.templateTitle("テンプレート作成");
-        console.log("input random template description....");
-        await this.setValue(this.selectors.templateDescription, content);
-        console.log("successfully inputted description...");
-        await this.saveAndConfirm();
+
+        switch(templateType) {
+            case "text":
+                await this.setValue(this.selectors.templateDescription, content);
+            break;
+
+            case "camera":
+                await this.fillTemplate({
+                    description: content,
+                    uploadAction: this.cameraHelper.templateCameraRoll.bind(this.cameraHelper),
+                });
+            break;
+
+            case "gallery":
+                await this.fillTemplate({
+                    description: content,
+                    uploadAction: this.cameraHelper.templateGallery.bind(this.cameraHelper),
+                });
+            break;
+
+            default:
+                throw new Error(`Inputted templateType: "${templateType} is invalid. use "text" | "camera" | "gallery"`);
+        }
+
+        const templatePostText = await this.waitAndGetText(this.selectors.templateDescription);
+        console.log(`Template Content: "${templatePostText}"`);
+        await this.saveAndConfirm(templatePostText);
     }
 
-    // -- via camera roll --
-    async createImageAndTextTemplate ({content}) {
-        await this.navTemplateCard();
-        console.log("opening template creation screen....");
-        await this.waitAndClick(this.selectors.createTemplate);
-        await this.templateTitle("テンプレート作成");
-        await this.fillTemplateImgText ({
-            description: content,
-            uploadAction: this.cameraHelper.templateCameraRoll.bind(this.cameraHelper),
-        });
-        await this.saveAndConfirm();
-        await this.closeTemplate();
-    }
+    // --SAVE TEMPLATE--
+    async saveAndConfirm (expectedText) {
+        await this.waitAndClick(this.selectors.saveTemplate);
+        try {
+            const success = await this.elementExists(this.selectors.successModal, 10000);
+            if (!success) throw new Error (">>> Unexpected error occurs or modal is not displayed!");
+            await this.waitAndClick(this.selectors.confirmBtn);
+            await this.driver.pause(2000);
 
-    // -- via device gallery --
-    async createTemplateImageGallery ({content}) {
-        await this.navTemplateCard();
-        console.log("opening template creation screen....");
-        await this.waitAndClick(this.selectors.createTemplate);
-        await this.templateTitle("テンプレート作成");
-        await this.fillTemplateImgText({
-            description: content,
-            uploadAction: this.cameraHelper.tempateGallery.bind(this.cameraHelper),
-        });
-        await this.saveAndConfirm();
         
+            const templateList = await this.waitAndFind$$(this.selectors.templateList, 5000);
+            const totalTemplate = templateList.length;
+
+            if(totalTemplate === 0) return console.log(">>> Template list is empty");
+            const recentTemplateCreated = templateList[1];
+
+            const textEl = await recentTemplateCreated.$(this.selectors.postedText);
+            const postExist = textEl.isExisting();
+            if (!postExist) {
+                console.log(">>> Template not found or recent post dont have content");
+            } else {
+                const postedText = await textEl.getText();
+                if (postedText.trim() === expectedText.trim()) {
+                    console.log(">>> Created template successfully displayed in template list");
+                } else {
+                    console.log(`>>> Template display is mismatch:
+                    Actual Text: "${postedText}"
+                    Expcted Text: "${expectedText}"`);
+                }
+            }
+        } catch (err) {
+            console.log(`>>> Unexpected error: ${err.message}`);
+        }
     }
-    // -- edit function --
+
+    // --TEMPLATE EDITING--
     async editTemplate ({content, uploadAction}) {
         await this.navTemplateCard();
-        const item = await this.waitAndFind$$(this.selectors.templateItem, 3000);
-        console.log("opening template editing screen....");
+        const item = await this.waitAndFind$$(this.selectors.templateItem, 5000);
         await item[1].click();
-        await this.templateTitle("テンプレート編集");
-        await this.fillTemplateImgText ({
+        await this.fillTemplate ({
             description: content, 
             uploadAction: this.cameraHelper.templateCameraRoll.bind(this.cameraHelper),
         });

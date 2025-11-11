@@ -5,14 +5,10 @@ describe ("⚡️ Template Settings", async function () {
     this.timeout(90000);
 
  
-    it ("Template Editing", async function () {
-        const templateContent = FakeData.randomSentence();
-        await templateSettings.editTemplate({
-            content: templateContent,
+    it ("Search Page: Template Creation base on inputted templateType: text | camera | gallery", async function () {
+        await templateSettings.templateCreation({
+            content: FakeData.randomSentence(),
+            templateType: 'text',
         });
-    });
-
-    it ("Template Deletion", async function () {
-        await templateSettings.deleteTemplate();
     });
 })
