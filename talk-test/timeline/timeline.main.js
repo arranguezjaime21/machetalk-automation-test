@@ -13,7 +13,7 @@ describe ("⚡️ Timeline Page", function() {
 
     it("Timeline List:", async function () {
         await timelineCommentLike.timelineSort({
-            sort: 'latest',
+            sort: 'recommended',
         });
     });
 })

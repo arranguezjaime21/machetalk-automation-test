@@ -203,41 +203,37 @@ export class TimelineCommentLike extends BasePage {
         super(driver);
         this.selectors = TimelinePageSelectors;
     }
-    
-    async timelineSort ({ sort = "recommended"}) {
 
-        const sortType = {
-            recommended: { 
+    async timelineSort ({ sort = "recommended"}) {
+        const sortList = {
+            recommended: {
                 label: "おすすめ順",
                 oppositeLabel: "新着順",
-                button: this.selectors.sortRecommended,
+                btn: this.selectors.sortRecommended,
             },
-
             latest: {
                 label: "新着順",
                 oppositeLabel: "おすすめ順",
-                button: this.selectors.sortLatest,
+                btn: this.selectors.sortRecommended,
             }
-        }
-
-        const sortInfo = sortType[sort];
-        if(!sortInfo) throw new Error(`Invalid "${sort}", use only "recommended" | "latest"`);
-
+        };
         try {
+            const sortInfo = sortList[sort];
+            if(!sortInfo) throw new Error(`Invalid inputted sort text: "${sort}". Use "recommended" | "latest"`);
             const currentSort = await this.waitAndGetText(this.selectors.sortLabel);
-            if(currentSort === sortInfo.label) return console.log(`Sort: ${currentSort} is already selected`);
+        
+            if(currentSort === sortInfo.label) return console.log(`${sort} timeline sorting is already displayed`);
             if(currentSort === sortInfo.oppositeLabel) {
                 await this.waitAndClick(this.selectors.sortLabel);
-                await this.waitAndClick(sortInfo.button);
+                await this.waitAndClick(sortInfo.btn);
 
                 const updatedSort = await this.waitAndGetText(this.selectors.sortLabel);
-                console.log(`Timeline list is displayed under ${sort}, sort type: "${updatedSort}"`);
+                console.log(`Timeline list is displayed under ${sort}, sort text: "${updatedSort}"`);
                 return;
             }
-            console.warn(`Unexpected text: "${currentSort}", expected: "${sortInfo.label}"`);
-
+            console.warn(`Unpexted text: "${currentSort}", expected: "${sortInfo.label}"`);
         } catch (err) {
-            throw new Error(`Failed to switch sort: ${err.message}`);
+            throw new Error(`Unexpected error or sorting element not found: ${err.message}`);
         }
     }
 }
