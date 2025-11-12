@@ -197,3 +197,47 @@ export class TimelinePosting extends BasePage {
     }
 
 }
+
+export class TimelineCommentLike extends BasePage {
+    constructor(driver) {
+        super(driver);
+        this.selectors = TimelinePageSelectors;
+    }
+    
+    async timelineSort ({ sort = "recommended"}) {
+
+        const sortType = {
+            recommended: { 
+                label: "おすすめ順",
+                oppositeLabel: "新着順",
+                button: this.selectors.sortRecommended,
+            },
+
+            latest: {
+                label: "新着順",
+                oppositeLabel: "おすすめ順",
+                button: this.selectors.sortLatest,
+            }
+        }
+
+        const sortInfo = sortType[sort];
+        if(!sortInfo) throw new Error(`Invalid "${sort}", use only "recommended" | "latest"`);
+
+        try {
+            const currentSort = await this.waitAndGetText(this.selectors.sortLabel);
+            if(currentSort === sortInfo.label) return console.log(`Sort: ${currentSort} is already selected`);
+            if(currentSort === sortInfo.oppositeLabel) {
+                await this.waitAndClick(this.selectors.sortLabel);
+                await this.waitAndClick(sortInfo.button);
+
+                const updatedSort = await this.waitAndGetText(this.selectors.sortLabel);
+                console.log(`Timeline list is displayed under ${sort}, sort type: "${updatedSort}"`);
+                return;
+            }
+            console.warn(`Unexpected text: "${currentSort}", expected: "${sortInfo.label}"`);
+
+        } catch (err) {
+            throw new Error(`Failed to switch sort: ${err.message}`);
+        }
+    }
+}

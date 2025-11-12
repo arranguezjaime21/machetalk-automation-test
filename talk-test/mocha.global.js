@@ -5,7 +5,7 @@ import { LoginScreen } from "../talk-screens/login.screen.js";
 import { AttackTab, CallAppeal, CallSettings, TemplateSettings } from "../talk-screens/search.screen.js";
 import { Logout, MyPage, MyPageTemplate, NotificationSettings, Stars, StreamingBonus } from "../talk-screens/mypage.screen.js";
 import { MessageScreen } from "../talk-screens/message.screen.js";
-import { TimelinePosting } from "../talk-screens/timeline.screen.js";
+import { TimelineCommentLike, TimelinePosting } from "../talk-screens/timeline.screen.js";
 
 
 
@@ -36,6 +36,7 @@ async beforeAll() {
     global.notificationSettings = new NotificationSettings(global.driver);
     global.streamingBonus = new StreamingBonus(global.driver);
     global.timelinePosting = new TimelinePosting(global.driver);
+    global.timelineCommentLike = new TimelineCommentLike(global.driver);
 },
 
 async afterAll() {

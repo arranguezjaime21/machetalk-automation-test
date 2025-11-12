@@ -178,5 +178,12 @@ export const TimelinePageSelectors = {
     tab2: '//*[@resource-id="com.fdc_machetalk_broadcaster:id/tab_title" and @text="フォロー中"]',
     tab3: '//*[@resource-id="com.fdc_machetalk_broadcaster:id/tab_title" and @text="自分の投稿"]',
 
+    // >>> 1st tab locators <<<
+    // --sorting-- 
+    sortLabel: 'id=com.fdc_machetalk_broadcaster:id/tv_sort_label',
+    sortRecommended: 'id=com.fdc_machetalk_broadcaster:id/rl_timeline_sort_type_recommended',
+    sortLatest: 'id=com.fdc_machetalk_broadcaster:id/rl_timeline_sort_type_new_arrival',
+    sortWording: '//android.widget.RelativeLayout/android.widget.TextView',
+
     
 } 
