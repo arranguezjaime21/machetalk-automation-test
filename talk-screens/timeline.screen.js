@@ -34,38 +34,31 @@ export class TimelinePosting extends BasePage {
     }
 
     // --- TIMELINE POST ---
-    async postTimeline ({content, postType = "text"}) {
+    async postTimeline ({ content, postType = "text"}) {
         await this.navTimelinePostScreen();
         await this.waitAndClick(this.selectors.newPost);
 
-        switch (postType) {
-
-            case "text":
-                await this.setValue(this.selectors.postText, content);
-            break;
-
-            case "camera":
-                await this.fillTimelineImgText ({ 
+        const postCategory = {
+            text: async () => await this.setValue(this.selectors.postText, content),
+            camera: async () => await this.fillTimelineImgText({
                 description: content,
                 uploadAction: this.cameraHelper.timelineCameraRoll.bind(this.cameraHelper),
-                });
-            break;
-
-            case "gallery":
-                await this.fillTimelineImgText({
+            }),
+            gallery: async () => await this.fillTimelineImgText({
                 description: content,
                 uploadAction: this.cameraHelper.timelineGallery.bind(this.cameraHelper),
-                });
-            break;
+            }),
+        };
 
-            default:
-                throw new Error(`>>> Inputted postype: "${postType}" is invalid. use "text" | "gallery" | "camera"`)
-        }
+        const action = postCategory[postType];
+        if (!action) throw new Error(`>>> Invalid postType: "${postType}" - user "text" | "camera" | "gallery"`);
+        
+        await action();
         const timelinePostText = await this.waitAndGetText(this.selectors.postText);
+        console.log(`>>> Timeline created post: "${timelinePostText}"`);
         await this.submitAndVerifyUploadedPost(timelinePostText);
         await this.postStatuses();
-    }
-
+}
     // --- CHECKER IF TIMELINE LIST IS EMPTY ---
     async emptyList () {
         const empty = await this.elementExists(this.selectors.emptyTimeline, 5000);
@@ -132,7 +125,6 @@ export class TimelinePosting extends BasePage {
                 console.log(">>> Latest post has no text");
             } else {
                 const textDisplay = await textElement.getText();
-                console.log(`>>> Timeline Post: "${textDisplay}"`);
 
                 if (textDisplay.trim() === expectedText.trim()) {
                     console.log(`>>> The uploaded post text matches the user input in timeline post screen`);
@@ -197,6 +189,7 @@ export class TimelinePosting extends BasePage {
     }
 
 }
+
 
 export class TimelineCommentLike extends BasePage {
     constructor(driver) {
